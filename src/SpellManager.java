@@ -34,12 +34,7 @@ class Grimoire extends SpellManager {
         getOwnSpells().add(addSpell);
     }
     public Spells getSpell(String spellName) {
-        Spells getSpell = searchSpell(spellName);
-        if (getSpell != null) {
-            return getSpell;
-        } else {
-            return null;
-        }
+        return searchSpell(spellName);
     }
     public Spells searchSpell(String spellName) {
         for (Spells spell: getSpells()) {

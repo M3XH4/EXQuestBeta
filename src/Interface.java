@@ -63,15 +63,20 @@ public class Interface {
                                 String spell = getInput().nextLine();
                                 Spells selectedSpell = getPlayer().getGrimoire().getSpell(spell);
                                 if (selectedSpell != null) {
-                                    if (selectedSpell instanceof Fireball fireball) {
-                                        spellCastDisplay(fireball);
-                                        fireball.setFire();
-                                    } else if (selectedSpell instanceof Blizzard blizzard) {
-                                        spellCastDisplay(blizzard);
-                                    } else if (selectedSpell instanceof Thunder thunder) {
-                                        spellCastDisplay(thunder);
-                                    } else {
-                                        System.out.println("Spirit Guide: I Cannot Read The Spell You Are Casting. Are You Sure That\nIs One Of Your Choices. Please Cast A Spell Again");
+                                    switch (selectedSpell) {
+                                        case Fireball fireball -> {
+                                            spellCastDisplay(fireball);
+                                            fireball.setFire();
+                                        }
+                                        case Blizzard blizzard -> {
+                                            spellCastDisplay(blizzard);
+                                        }
+                                        case Thunder thunder -> {
+                                            spellCastDisplay(thunder);
+                                        }
+                                        default -> {
+                                            System.out.println("Spirit Guide: I Cannot Read The Spell You Are Casting. Are You Sure That\nIs One Of Your Choices. Please Cast A Spell Again");
+                                        }
                                     }
                                 }
                             } while(spellSelectLoop);

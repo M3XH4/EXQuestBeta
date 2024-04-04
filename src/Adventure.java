@@ -1,7 +1,6 @@
 import java.util.*;
 public class Adventure {
     public static void main(String[] args) {
-        boolean gameLoop = true;
         Scanner input = new Scanner(System.in);
 
         System.out.println("---------- EXQuest ----------");
@@ -19,7 +18,6 @@ public class Adventure {
             String gameStart = input.nextLine();
 
             if (gameStart.equalsIgnoreCase("Yes")) {
-                gameLoop = false;
                 do {
                     Enemy enemy = new Enemy();
                     ScenarioManager scenarioManager = new ScenarioManager(player, enemy);
@@ -41,7 +39,7 @@ public class Adventure {
                 } while (true);
             }
 
-        } while (gameLoop);
+        } while (true);
 
     }
 }

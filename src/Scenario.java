@@ -61,7 +61,7 @@ class Screen extends Scenario {
     }
 
     public void startScreen() {
-        
+
     }
 }
 class Market extends Scenario {
