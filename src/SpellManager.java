@@ -20,10 +20,10 @@ public class SpellManager {
     }
 }
 class Grimoire extends SpellManager {
-    private ArrayList<Spells> grimoire;
+    private ArrayList<Spells> ownSpells;
 
     public Grimoire() {
-        setGrimoire(new ArrayList<>());
+        setOwnSpells(new ArrayList<>());
 
         addSpell("Fireball");
         addSpell("Blizzard");
@@ -31,7 +31,7 @@ class Grimoire extends SpellManager {
     }
     public void addSpell(String spellName) {
         Spells addSpell = searchSpell(spellName);
-        getGrimoire().add(addSpell);
+        getOwnSpells().add(addSpell);
     }
     public Spells getSpell(String spellName) {
         Spells getSpell = searchSpell(spellName);
@@ -56,11 +56,11 @@ class Grimoire extends SpellManager {
             return null;
         }
     }
-    public ArrayList<Spells> getGrimoire() {
-        return grimoire;
+    public ArrayList<Spells> getOwnSpells() {
+        return ownSpells;
     }
 
-    public void setGrimoire(ArrayList<Spells> grimoire) {
-        this.grimoire = grimoire;
+    public void setOwnSpells(ArrayList<Spells> ownSpells) {
+        this.ownSpells = ownSpells;
     }
 }

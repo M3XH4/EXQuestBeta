@@ -45,17 +45,17 @@ public class Interface {
                     }
                 } while(true);
             } else if (command.equalsIgnoreCase("Spell")) {
-                if (getPlayer().getGrimoire().getGrimoire().isEmpty()) {
+                if (getPlayer().getGrimoire().getOwnSpells().isEmpty()) {
                     System.out.println("Spirit Guide: Do You Want To Cast Spell? (Yes/No)");
                     do {
                         String spellAnswer = getInput().nextLine();
                         if (spellAnswer.equalsIgnoreCase("Yes")) {
                             System.out.println("Spirit Guide: What Spell Would You Like To Use: ");
 
-                            for(int i = 0; i < getPlayer().getGrimoire().getGrimoire().size(); i++) {
+                            for(int i = 0; i < getPlayer().getGrimoire().getOwnSpells().size(); i++) {
                                 if (i == 0) { System.out.print("("); }
-                                System.out.print(getPlayer().getGrimoire().getGrimoire().get(i).getSpellName());
-                                if (i != (getPlayer().getGrimoire().getGrimoire().size() - 1)) {System.out.print("/"); }
+                                System.out.print(getPlayer().getGrimoire().getOwnSpells().get(i).getSpellName());
+                                if (i != (getPlayer().getGrimoire().getOwnSpells().size() - 1)) {System.out.print("/"); }
                                 else { System.out.println(")"); }
                             }
                             do {

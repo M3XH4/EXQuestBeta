@@ -19,7 +19,12 @@ public class Adventure {
             String gameStart = input.nextLine();
 
             if (gameStart.equalsIgnoreCase("Yes")) {
-
+                gameLoop = false;
+                do {
+                    Enemy enemy = new Enemy();
+                    ScenarioManager scenarioManager = new ScenarioManager(player, enemy);
+                    scenarioManager.getBattle().startBattle();
+                } while(true);
             } else if (gameStart.equalsIgnoreCase("No")) {
                 do {
                     System.out.println("Spirit Guide: Do You Want To Go Back To Your World? (Yes/No)");

@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class Global {
     public static void placeLine(String msg) {
