@@ -5,7 +5,7 @@ public class Adventure {
 
         System.out.println("---------- EXQuest ----------");
         System.out.println("Unknown Person: Good Day Traveller, What Is Your Name? ");
-        System.out.print("Your Name- ");
+        System.out.print("Your Name - ");
         String playerName = input.nextLine();
         System.out.println("Unknown Person: Welcome To The World Of Gaia, Warrior " + playerName);
         System.out.println("Unknown Person: I Am A Spirit Guide, I Will Help You Throughout Your Journey In This World.");
@@ -14,13 +14,16 @@ public class Adventure {
 
         do {
             System.out.println("Spirit Guide: Do You Want To Start Your Adventure? (Yes/No)");
-            System.out.println("Spirit Guide: If You Answer No, I Can Use A Spell To Help You Go Back To YOur World.");
+            System.out.println("Spirit Guide: If You Answer No, I Can Use A Spell To Help You Go Back To Your World.");
+            System.out.print("Your Response - ");
             String gameStart = input.nextLine();
 
             if (gameStart.equalsIgnoreCase("Yes")) {
+                System.out.println();
                 do {
                     Enemy enemy = new Enemy();
                     ScenarioManager scenarioManager = new ScenarioManager(player, enemy);
+                    scenarioManager.getScreen().startScreen();
                     scenarioManager.getBattle().startBattle();
                 } while(true);
             } else if (gameStart.equalsIgnoreCase("No")) {

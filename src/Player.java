@@ -20,18 +20,19 @@ public class Player extends Stats {
     public void displayFullStats() {
         String temp_title = "-------- " + getName() + " --------";
         displayStats();
-        System.out.println("Attack: " + getSkills().getFirst().getSkillAttackValue());
-        Global.placeLine(temp_title);
-        System.out.println("Level:  " + getLevel());
-        System.out.println("Exp:    " + getExp() + "/" + getMaxExp());
+        System.out.println("| Attack:\t" + getSkills().getFirst().getSkillAttackValue() + "\t\t|");
+        System.out.print("Experience ");
+        Global.placeLine( 11, temp_title);
+        System.out.println("| Level:\t" + getLevel() + "\t\t|");
+        System.out.println("| Exp:\t\t" + getExp() + "/" + getMaxExp() + "\t|");
         System.out.print("Equipment ");
-        Global.placeLine(temp_title, 10);
-        System.out.println("Weapon: " + getInventory().getItemWeapon().getItemName());
-        System.out.println("Head:   " + getInventory().getItemHelmet().getItemName());
-        System.out.println("Body;   " + getInventory().getItemTorso().getItemName());
-        System.out.println("Hands:  " + getInventory().getItemGloves().getItemName());
-        System.out.println("Legs:   " + getInventory().getItemLeggings().getItemName());
-        System.out.println("Foot:   " + getInventory().getItemBoots().getItemName());
+        Global.placeLine( 10, temp_title);
+        System.out.println("| Weapon:\t" + getInventory().getItemWeapon().getItemName() + "\t|");
+        System.out.println("| Helmet:\t" + getInventory().getItemHelmet().getItemName() + "\t|");
+        System.out.println("| Armor:\t" + getInventory().getItemTorso().getItemName() + "\t|");
+        System.out.println("| Gloves:\t" + getInventory().getItemGloves().getItemName() + "\t|");
+        System.out.println("| Leggings:\t" + getInventory().getItemLeggings().getItemName() + "\t|");
+        System.out.println("| Boots:\t" + getInventory().getItemBoots().getItemName() + "\t|");
         Global.placeLine(temp_title);
     }
     public void equipWeapon(Weapon weapon) {

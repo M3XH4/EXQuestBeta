@@ -13,9 +13,9 @@ public class Stats {
     public void displayStats() {
         String nameTitle = "-------- " + getName() + " --------";
         System.out.println(nameTitle);
-        System.out.println("Health: " + getHealth() + "/" + getMaxHealth());
+        System.out.println("| Health:\t" + getHealth() + "/" + getMaxHealth() + "\t|");
         if (this instanceof Player player) {
-            System.out.println("Mana: " + player.getMana() + "/" + getMana());
+            System.out.println("| Mana:\t\t" + player.getMana() + "/" + getMana() + "\t|");
         }
         Global.placeLine(nameTitle);
     }
@@ -54,7 +54,7 @@ public class Stats {
             System.out.println("Spirit Guide: You Have Used " + player.getSkillName() + ".");
             enemy.setHealth(enemy.getHealth() - player.getSkillAttackValue());
             if (enemy.getHealth() > 20 && enemy.getHealth() <= enemy.getMaxHealth()) {
-                System.out.println("Spirit Guide: Enemy Is Down To " + enemy.getHealth() + "Health.");
+                System.out.println("Spirit Guide: Enemy Is Down To " + enemy.getHealth() + " Health.");
             } else if (enemy.getHealth() >= 0 && enemy.getHealth() <= 20){
                 System.out.println("Spirit Guide: Enemy Is Now " + enemy.getHealth() + ", Finish Him!");
             } else {

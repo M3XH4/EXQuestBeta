@@ -61,7 +61,36 @@ class Screen extends Scenario {
     }
 
     public void startScreen() {
+        getPlayer().displayFullStats();
+        String commandsHelpMsg = "| ( Equip ) - Equip Your Equipments | ( Open ) - Open Inventory | ( View ) - View Your Spells | ( Roam ) - Roam Around |";
+        System.out.println("Spirit Guide: What Would You Like To Do?");
+        Global.placeLine(commandsHelpMsg);
+        System.out.println(commandsHelpMsg);
+        Global.placeLine(commandsHelpMsg);
+        System.out.print("Your Response - ");
+        String playerCommand = getInput().nextLine();
 
+        if (playerCommand.equalsIgnoreCase("Equip")) {
+
+            String equipHelpMsg = "| ( Weapon ) - Equip Weapon\t| ( Helmet ) - Equip Helmet \t| ( Armor ) - Equip Armor\t|";
+            String equipHelpMsg2 = "| ( Gloves ) - Equip Gloves\t| ( Leggings ) - Equip Leggings\t| ( Boots)  - Equip Boots\t|";
+            System.out.println("Spirit Guide: Which Equipment Types Would You Like To Equip");
+            Global.placeLine(equipHelpMsg2, 2);
+            System.out.println(equipHelpMsg);
+            System.out.println(equipHelpMsg2);
+            Global.placeLine(equipHelpMsg2, 2);
+            System.out.print("Your Response - ");
+            String equipCommand = getInput().nextLine();
+
+        } else if (playerCommand.equalsIgnoreCase("Open")) {
+
+        } else if (playerCommand.equalsIgnoreCase("View")) {
+
+        } else if (playerCommand.equalsIgnoreCase("Roam")) {
+            System.out.println("Warrior " + getPlayer().getName() + " Is Roaming Around...");
+            Global.pause();
+        } else {
+        }
     }
 }
 class Market extends Scenario {
@@ -90,18 +119,19 @@ class Battle extends Scenario {
         int turn = 1;
 
         while (getPlayer().getHealth() > 0 && getEnemy().getHealth() > 0) {
-            System.out.print("Turn 1 ");
-            Global.placeLine(temp_title, 7);
-
+            System.out.print("\nTurn " + turn + " ");
+            Global.placeLine(7, temp_title);
             if (!(turn % 2 == 0)) {
                 getCLI().playerTurnDisplay();
                 Global.pause();
             } else {
                 getCLI().enemyTurnDisplay();
+                Global.placeLine(temp_title);
                 Global.pause();
             }
             addManaPerTurn();
             turn ++;
+            Global.placeLine(temp_title);
         }
         if (getPlayer().getHealth() <= 0) {
             getCLI().loseDisplay();

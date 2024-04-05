@@ -19,17 +19,22 @@ public class Interface {
 
     public void enemyTurnDisplay() {
         System.out.println(getEnemy().getName() + "'s Turn");
+        String temp_title = "------- Battle Starting -------";
+        Global.placeLine(temp_title);
         getEnemy().attacks(getPlayer(), getEnemy(), getRandom().nextInt(getEnemy().getSkills().size()));
     }
     public void playerTurnDisplay() {
         System.out.println("Warrior " + getPlayer().getName() + "'s Turn");
+        String temp_title = "------- Battle Starting -------";
+        Global.placeLine(temp_title);
         do {
             System.out.println("Spirit Guide: What Would You Like To Do? (Attack/Spell/Flee)");
             System.out.print("Your Response - ");
             String command = getInput().nextLine();
 
             if (command.equalsIgnoreCase("Attack")) {
-                System.out.println("Spirit Guide: Do `You Want TO Attack + " + getEnemy().getName() + "? (Yes/No)");
+                System.out.println("Spirit Guide: Do You Want To Attack " + getEnemy().getName() + "? (Yes/No)");
+                boolean attackLoop = true;
                 do {
                     System.out.print("Your Response - ");
                     String attackAnswer = getInput().nextLine();
@@ -37,13 +42,13 @@ public class Interface {
                     if (attackAnswer.equalsIgnoreCase("Yes")) {
                         getPlayer().attacks(getPlayer(), getEnemy());
                         commandLoop = false;
-                        break;
+                        attackLoop = false;
                     } else if (attackAnswer.equalsIgnoreCase("No")) {
-                        break;
+                        attackLoop = false;
                     } else {
                         confuseMessage(1);
                     }
-                } while(true);
+                } while(attackLoop);
             } else if (command.equalsIgnoreCase("Spell")) {
                 if (getPlayer().getGrimoire().getOwnSpells().isEmpty()) {
                     System.out.println("Spirit Guide: Do You Want To Cast Spell? (Yes/No)");

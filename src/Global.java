@@ -10,8 +10,17 @@ public class Global {
             }
         }
     }
-    public static void placeLine(String msg, int min) {
+    public static void placeLine(int min, String msg) {
         int lineLength = msg.length() - min;
+        for (int i = 0; i < lineLength; i++) {
+            System.out.print("-");
+            if (i == (lineLength - 1)) {
+                System.out.print("\n");
+            }
+        }
+    }
+    public static void placeLine(String msg, int plus) {
+        int lineLength = msg.length() + plus;
         for (int i = 0; i < lineLength; i++) {
             System.out.print("-");
             if (i == (lineLength - 1)) {
