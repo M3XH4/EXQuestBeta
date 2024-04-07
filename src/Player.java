@@ -16,95 +16,122 @@ public class Player extends Stats {
         setMaxExp(100);
         setLevel(1);
         setSkills(new ArrayList<>(List.of(new Skills("Fist", 3))));
+
+
+        getInventory().addItem("Leather Helmet");
+        getInventory().addItem("Leather Helmet");
+        getInventory().addItem("Leather Helmet");
+        getInventory().addItem("Leather Robe");
+        getInventory().addItem("Leather Gloves");
+        getInventory().addItem("Leather Boots");
+        getInventory().addItem("Leather Boots");
+        getInventory().addItem("Leather Boots");
+        getInventory().addItem("Leather Pants");
+
+        for (int i = 0; i < 5; i++) {
+            getInventory().addItem("Health Potion");
+            System.out.println("Health Potion Increased To " +  getInventory().getOwnItem("Health Potion").getQuantity());
+        }
+
+        for (int i = 0; i < 5; i++) {
+            getInventory().addItem("Mana Potion");
+            System.out.println("Mana Potion Increased To " + getInventory().getOwnItem("Mana Potion").getQuantity());
+        }
+
     }
     public void displayFullStats() {
-        String temp_title = "-------- " + getName() + " --------";
+        String tempTitle = "|--------------- " + getName() + " ---------------|";
         displayStats();
-        System.out.println("| Attack:\t" + getSkills().getFirst().getSkillAttackValue() + "\t\t|");
+        System.out.println("| Attack:\t" + Global.spacerString(24, Integer.toString(getSkills().getFirst().getSkillAttackValue())) + " |");
         System.out.print("Experience ");
-        Global.placeLine( 11, temp_title);
-        System.out.println("| Level:\t" + getLevel() + "\t\t|");
-        System.out.println("| Exp:\t\t" + getExp() + "/" + getMaxExp() + "\t|");
+        Global.placeLine( 11, tempTitle);
+        System.out.println("| Level:\t" + Global.spacerString(24, Integer.toString(getLevel())) + " |");
+        System.out.println("| Exp:\t\t" + Global.spacerString(24, getExp() + "/" + getMaxExp()) + " |");
         System.out.print("Equipment ");
-        Global.placeLine( 10, temp_title);
-        System.out.println("| Weapon:\t" + getInventory().getItemWeapon().getItemName() + "\t|");
-        System.out.println("| Helmet:\t" + getInventory().getItemHelmet().getItemName() + "\t|");
-        System.out.println("| Armor:\t" + getInventory().getItemTorso().getItemName() + "\t|");
-        System.out.println("| Gloves:\t" + getInventory().getItemGloves().getItemName() + "\t|");
-        System.out.println("| Leggings:\t" + getInventory().getItemLeggings().getItemName() + "\t|");
-        System.out.println("| Boots:\t" + getInventory().getItemBoots().getItemName() + "\t|");
-        Global.placeLine(temp_title);
+        Global.placeLine( 10, tempTitle);
+        System.out.println("| Weapon:\t" + Global.spacerString(24, getInventory().getEquippedWeapon().getItemName()) + " |");
+        System.out.println("| Helmet:\t" + Global.spacerString(24, getInventory().getEquippedHelmet().getItemName()) + " |");
+        System.out.println("| Armor:\t" + Global.spacerString(24, getInventory().getEquippedTorso().getItemName()) + " |");
+        System.out.println("| Gloves:\t" + Global.spacerString(24, getInventory().getEquippedGloves().getItemName()) + " |");
+        System.out.println("| Leggings:\t" + Global.spacerString(24, getInventory().getEquippedLeggings().getItemName()) + " |");
+        System.out.println("| Boots:\t" + Global.spacerString(24, getInventory().getEquippedBoots().getItemName()) + " |");
+        Global.placeLine(tempTitle);
     }
-    public void equipWeapon(Weapon weapon) {
-        getInventory().setItemWeapon(weapon);
-        getSkills().getFirst().setSkillAttackName(getInventory().getItemWeapon().getItemName());
-        getSkills().getFirst().setSkillAttackValue(getInventory().getItemWeapon().getStatsValue());
+    public void equipEquipment(Item item){
+        try {
+            if (item instanceof Weapon) {
+                getInventory().setEquippedWeapon((Weapon) item);
+                getSkills().getFirst().setSkillAttackName(getInventory().getEquippedWeapon().getItemName());
+                getSkills().getFirst().setSkillAttackValue(getInventory().getEquippedWeapon().getStatsValue());
+            } else if (item instanceof Armor) {
+                Armor armor = (Armor) item;
+                if (armor instanceof Helmet) {
+                    getInventory().setEquippedHelmet((Helmet) armor);
+                } else if (armor instanceof Torso) {
+                    getInventory().setEquippedTorso((Torso) armor);
+                } else if (armor instanceof Gloves) {
+                    getInventory().setEquippedGloves((Gloves) armor);
+                } else if (armor instanceof Leggings) {
+                    getInventory().setEquippedLeggings((Leggings) armor);
+                } else if (armor instanceof Boots) {
+                    getInventory().setEquippedBoots((Boots) armor);
+                }
+                setHealth(getHealth() + armor.getStatsValue());
+                setMaxHealth(getMaxHealth() + armor.getStatsValue());
+            }
+            getInventory().getOwnItem(item.getItemName()).setQuantity(getInventory().getOwnItem(item.getItemName()).getQuantity() - 1);
+        } catch (Exception e) {
+            System.out.println("Spirit Guide: Item Is Not In Inventory.");
+        }
     }
-    public void equipHelmet(Helmet helmet) {
-        getInventory().setItemHelmet(helmet);
-        setHealth(getHealth() + getInventory().getItemHelmet().getStatsValue());
-        setMaxHealth(getMaxHealth() + getInventory().getItemHelmet().getStatsValue());
-    }
-    public void equipTorso(Torso torso) {
-        getInventory().setItemTorso(torso);
-        setHealth(getHealth() + getInventory().getItemTorso().getStatsValue());
-        setMaxHealth(getMaxHealth() + getInventory().getItemTorso().getStatsValue());
-    }
-    public void equipGloves(Gloves gloves) {
-        getInventory().setItemGloves(gloves);
-        setHealth(getHealth() + getInventory().getItemGloves().getStatsValue());
-        setMaxHealth(getMaxHealth() + getInventory().getItemGloves().getStatsValue());
-    }
-    public void equipLeggings(Leggings leggings) {
-        getInventory().setItemLeggings(leggings);
-        setHealth(getHealth() + getInventory().getItemLeggings().getStatsValue());
-        setMaxHealth(getMaxHealth() + getInventory().getItemLeggings().getStatsValue());
-    }
-    public void equipBoots(Boots boots) {
-        getInventory().setItemBoots(boots);
-        setHealth(getHealth() + getInventory().getItemBoots().getStatsValue());
-        setMaxHealth(getMaxHealth() + getInventory().getItemBoots().getStatsValue());
-    }
+    public void removeEquipment() {
 
+    }
     public void removeWeapon() {
         getSkills().getFirst().setSkillAttackName("Fist");
         getSkills().getFirst().setSkillAttackValue(3);
-        getInventory().setItemWeapon(null);
+        getInventory().getOwnItem(getInventory().getEquippedWeapon().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedWeapon().getItemName()).getQuantity() + 1);
+        getInventory().setEquippedWeapon(null);
     }
     public void removeHelmet() {
-        setMaxHealth(getMaxHealth() - getInventory().getItemHelmet().getStatsValue());
+        setMaxHealth(getMaxHealth() - getInventory().getEquippedHelmet().getStatsValue());
         if(getHealth() > getMaxHealth()) {
             setHealth(getMaxHealth());
         }
-        getInventory().setItemHelmet(null);
+        getInventory().getOwnItem(getInventory().getEquippedHelmet().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedHelmet().getItemName()).getQuantity() + 1);
+        getInventory().setEquippedBoots(null);
     }
     public void removeTorso() {
-        setMaxHealth(getMaxHealth() - getInventory().getItemTorso().getStatsValue());
+        setMaxHealth(getMaxHealth() - getInventory().getEquippedTorso().getStatsValue());
         if(getHealth() > getMaxHealth()) {
             setHealth(getMaxHealth());
         }
-        getInventory().setItemTorso(null);
+        getInventory().getOwnItem(getInventory().getEquippedTorso().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedTorso().getItemName()).getQuantity() + 1);
+        getInventory().setEquippedTorso(null);
     }
     public void removeGloves() {
-        setMaxHealth(getMaxHealth() - getInventory().getItemGloves().getStatsValue());
+        setMaxHealth(getMaxHealth() - getInventory().getEquippedGloves().getStatsValue());
         if(getHealth() > getMaxHealth()) {
             setHealth(getMaxHealth());
         }
-        getInventory().setItemGloves(null);;
+        getInventory().getOwnItem(getInventory().getEquippedGloves().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedGloves().getItemName()).getQuantity() + 1);
+        getInventory().setEquippedGloves(null);;
     }
     public void removeLeggings() {
-        setMaxHealth(getMaxHealth() - getInventory().getItemLeggings().getStatsValue());
+        setMaxHealth(getMaxHealth() - getInventory().getEquippedLeggings().getStatsValue());
         if(getHealth() > getMaxHealth()) {
             setHealth(getMaxHealth());
         }
-        getInventory().setItemLeggings(null);
+        getInventory().getOwnItem(getInventory().getEquippedLeggings().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedLeggings().getItemName()).getQuantity() + 1);
+        getInventory().setEquippedLeggings(null);
     }
     public void removeBoots() {
-        setMaxHealth(getMaxHealth() - getInventory().getItemBoots().getStatsValue());
+        setMaxHealth(getMaxHealth() - getInventory().getEquippedBoots().getStatsValue());
         if (getHealth() > getMaxHealth()) {
             setHealth(getMaxHealth());
         }
-        getInventory().setItemBoots(null);
+        getInventory().getOwnItem(getInventory().getEquippedBoots().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedBoots().getItemName()).getQuantity() + 1);
+        getInventory().setEquippedBoots(null);
     }
 
     public Grimoire getGrimoire() {
@@ -135,13 +162,13 @@ public class Player extends Stats {
         System.out.println("AAAAAAAAAAAAAAA");
         player.displayFullStats();
         System.out.println("AAAAAAAAAAAAAAA");
-        player.getInventory().addItem(helmet);
-        player.getInventory().addItem(sword);
-        player.getInventory().addItem(torso);
-        player.getInventory().addItem(boots);
+        player.getInventory().addItem("Iron Helmet");
+        player.getInventory().addItem("Excalibur");
+        player.getInventory().addItem("Aegis");
+        player.getInventory().addItem("Hermes' Boots");
 
         Scanner input = new Scanner(System.in);
-        do {
+        /*do {
             System.out.println("Your Inventory:");
             for (int i = 0; i < player.getInventory().getItems().size(); i++) {
                 if (i == 0) {
@@ -162,9 +189,6 @@ public class Player extends Stats {
                 System.out.println("What Part Would You Like To Equip");
                 System.out.println("|   Weapon  |   Head    |   Body    |   Hands  |   Legs |   Foot    |");
                 String partChoice = input.nextLine();
-
-                player.getInventory().getAllWeapons();
-                player.getInventory().getAllArmors();
 
                 if (partChoice.equalsIgnoreCase("Weapon")) {
                     player.getInventory().askEquipItem("Weapon", player.getInventory().getWeapons());
@@ -209,9 +233,6 @@ public class Player extends Stats {
                 System.out.println("|   Weapon  |   Head    |   Body    |   Hands  |   Legs |   Foot    |");
                 String partChoice = input.nextLine();
 
-                player.getInventory().getAllWeapons();
-                player.getInventory().getAllArmors();
-
                 if (partChoice.equalsIgnoreCase("Weapon")) {
                     player.getInventory().askEquipItem("Weapon", player.getInventory().getWeapons());
                 } else if (partChoice.equalsIgnoreCase("Head")) {
@@ -232,6 +253,6 @@ public class Player extends Stats {
             } else {
                 System.out.println("I don't understand Your response");
             }
-        } while (true);
+        } while (true);*/
     }
 }

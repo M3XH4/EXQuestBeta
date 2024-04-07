@@ -1,6 +1,11 @@
 import java.util.*;
 
 public class Global {
+    public enum AttributeType {
+        Mana,
+        Health,
+        Attack
+    }
     public static void placeLine(String msg) {
         int lineLength = msg.length();
         for (int i = 0; i < lineLength; i++) {
@@ -31,6 +36,10 @@ public class Global {
     public static void pause() {
         Scanner input = new Scanner(System.in);
         System.out.print("Press Enter To Continue...");
-        String next = input.nextLine();
+        input.nextLine();
+    }
+    public static String spacerString(int spaces, String itemString) {
+        int itemNameLength = spaces - itemString.length();
+        return itemString + " ".repeat(Math.max(0, itemNameLength));
     }
 }

@@ -58,4 +58,18 @@ class Grimoire extends SpellManager {
     public void setOwnSpells(ArrayList<Spells> ownSpells) {
         this.ownSpells = ownSpells;
     }
+
+    public void displayOwnSpells(List<? extends Spells> spells) {
+        String headerItems = "|                 Name                |           Damage          |       Mana Needed      |";
+        Global.placeLine(headerItems);
+        System.out.println(headerItems);
+        Global.placeLine(headerItems);
+        for (int i = 0; i < spells.size(); i++) {
+            System.out.print("| " + Global.spacerString(35, spells.get(i).getSpellName()) + " | " + Global.spacerString(21, spells.get(i).getSpellAttackValue() + " ATK") + " | " + Global.spacerString(16, Integer.toString(spells.get(i).getManaNeeded())) + " |\n");
+        }
+        if(spells.size() == 0) {
+            System.out.println("|\t\t\t\t\t\t\t\t\t  |  \t\t\t\t\t  |  \t\t\t\t | \t\t\t\t\t\t\t\t\t\t\t\t  |");
+        }
+        Global.placeLine(headerItems);
+    }
 }

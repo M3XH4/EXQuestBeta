@@ -1,6 +1,29 @@
 import java.util.*;
 public class ItemManager {
     private ArrayList<Item> items;
+    public ItemManager() {
+        setItems(new ArrayList<>());
+
+
+        getItems().add(new Gloves("Leather Gloves", "", 3, 7));
+        getItems().add(new Helmet("Leather Helmet", "", 4, 10));
+        getItems().add(new Leggings("Leather Pants", "",5, 16));
+        getItems().add(new Boots("Leather Boots", "", 3, 7));
+        getItems().add(new Torso("Leather Robe", "", 8, 25));
+        getItems().add(new Potion("Health Potion", "Adds 10 HP To Your Health", 10, 20, Global.AttributeType.Health));
+        getItems().add(new Potion("Mana Potion", "Adds 10 MP To Your Health", 10, 20, Global.AttributeType.Mana));
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
+}
+
+class Inventory extends ItemManager {
+    private ArrayList<Item> ownItems;
     private ArrayList<Weapon> weapons;
     private ArrayList<Knife> knives;
     private ArrayList<Sword> swords;
@@ -11,9 +34,17 @@ public class ItemManager {
     private ArrayList<Gloves> gloves;
     private ArrayList<Leggings> leggings;
     private ArrayList<Boots> boots;
-    public ItemManager() {
-        setItems(new ArrayList<>());
-        setWeapons(new ArrayList<>());
+    private Weapon noWeapon;
+    private Armor noArmor;
+    private Weapon equippedWeapon = null;
+    private Helmet equippedHelmet = null;
+    private Torso equippedTorso = null;
+    private Gloves equippedGloves = null;
+    private Leggings equippedLeggings = null;
+    private Boots equippedBoots = null;
+
+    public Inventory() {
+        setOwnItems(new ArrayList<>());
         setKnives(new ArrayList<>());
         setSpears(new ArrayList<>());
         setSwords(new ArrayList<>());
@@ -23,162 +54,86 @@ public class ItemManager {
         setGloves(new ArrayList<>());
         setLeggings(new ArrayList<>());
         setBoots(new ArrayList<>());
-    }
-    public ArrayList<Weapon> getAllWeapons() {
-        ArrayList<Weapon> temp_weapons = new ArrayList<>();
 
-        for(Item item: items) {
-            if (item instanceof Weapon) {
-                if(item instanceof Knife) {
-                    getKnives().add((Knife) item);
-                } else if (item instanceof Sword) {
-                    getSwords().add((Sword) item);
-                } else if (item instanceof Spear) {
-                    getSpears().add((Spear) item);
-                }
-                temp_weapons.add((Weapon) item);
-            }
-        }
-        setWeapons(temp_weapons);
-        return getWeapons();
-    }
-    public ArrayList<Armor> getAllArmors() {
-        ArrayList<Armor> temp_armors = new ArrayList<>();
-
-        for(Item item: items) {
-            if (item instanceof Armor) {
-                if (item instanceof Helmet) {
-                    getHelmets().add((Helmet) item);
-                } else if (item instanceof Torso) {
-                    getTorsos().add((Torso) item);
-                } else if (item instanceof Gloves) {
-                    getGloves().add((Gloves) item);
-                } else if (item instanceof Leggings) {
-                    getLeggings().add((Leggings) item);
-                } else if (item instanceof Boots) {
-                    getBoots().add((Boots) item);
-                }
-                temp_armors.add((Armor) item);
-            }
-        }
-        setArmors(temp_armors);
-        return getArmors();
-    }
-
-    public ArrayList<Knife> getKnives() {
-        return knives;
-    }
-
-    public void setKnives(ArrayList<Knife> knives) {
-        this.knives = knives;
-    }
-
-    public ArrayList<Sword> getSwords() {
-        return swords;
-    }
-
-    public void setSwords(ArrayList<Sword> swords) {
-        this.swords = swords;
-    }
-
-    public ArrayList<Spear> getSpears() {
-        return spears;
-    }
-
-    public void setSpears(ArrayList<Spear> spears) {
-        this.spears = spears;
-    }
-
-    public ArrayList<Helmet> getHelmets() {
-        return helmets;
-    }
-
-    public void setHelmets(ArrayList<Helmet> helmets) {
-        this.helmets = helmets;
-    }
-
-    public ArrayList<Torso> getTorsos() {
-        return torsos;
-    }
-
-    public void setTorsos(ArrayList<Torso> torsos) {
-        this.torsos = torsos;
-    }
-
-    public ArrayList<Gloves> getGloves() {
-        return gloves;
-    }
-
-    public void setGloves(ArrayList<Gloves> gloves) {
-        this.gloves = gloves;
-    }
-
-    public ArrayList<Leggings> getLeggings() {
-        return leggings;
-    }
-
-    public void setLeggings(ArrayList<Leggings> leggings) {
-        this.leggings = leggings;
-    }
-
-    public ArrayList<Boots> getBoots() {
-        return boots;
-    }
-
-    public void setBoots(ArrayList<Boots> boots) {
-        this.boots = boots;
-    }
-
-    public ArrayList<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(ArrayList<Item> items) {
-        this.items = items;
-    }
-    public ArrayList<Weapon> getWeapons() {
-        return this.weapons;
-    }
-    public void setWeapons(ArrayList<Weapon> weapons) {
-        this.weapons = weapons;
-    }
-    public ArrayList<Armor> getArmors() {
-        return armors;
-    }
-
-    public void setArmors(ArrayList<Armor> armors) {
-        this.armors = armors;
-    }
-}
-
-class Inventory extends ItemManager {
-    private Weapon noWeapon;
-    private Armor noArmor;
-    private Weapon weapon = null;
-    private Helmet helmet = null;
-    private Torso torso = null;
-    private Gloves gloves = null;
-    private Leggings leggings = null;
-    private Boots boots = null;
-
-    public Inventory() {
         setNoWeapon(new NoItemWeapon());
         setNoArmor(new NoItemArmor());
     }
-    public void addItem(Item item) {
-        if (!(getItems().contains(item))) {
-            getItems().add(item);
+    public void displayOwnItems(List<? extends Item> items) {
+        String headerItems = "|              Name             | Quantity |         Type         |       Stats      |                  Description                |";
+        Global.placeLine(headerItems);
+        System.out.println(headerItems);
+        Global.placeLine(headerItems);
+        for (Item item : items) {
+            if (item.getQuantity() != 0) {
+                String statValue = (item instanceof Weapon) ? ("+" + item.getStatsValue() + " ATK") : ("+" +item.getStatsValue() + " HP");
+                System.out.print("| " + Global.spacerString(29, item.getItemName()) + " | " + Global.spacerString(8, Integer.toString(item.getQuantity())) + " | " + Global.spacerString(20, item.getClass().getSimpleName()) + " | " + Global.spacerString(16, statValue) + " | " + Global.spacerString(43, item.getItemDesc()) + " |\n");
+            }
+            else if (item.getQuantity() == 0) {
+                System.out.println("|\t\t\t\t\t\t\t\t| \t\t   | \t\t\t\t\t  |  \t\t\t\t | \t\t\t\t\t\t\t\t\t\t\t   |");
+            }
+        }
+        if(items.isEmpty()) {
+            System.out.println("|\t\t\t\t\t\t\t\t| \t\t   | \t\t\t\t\t  |  \t\t\t\t | \t\t\t\t\t\t\t\t\t\t\t   |");
+        }
+        Global.placeLine(headerItems);
+        items.clear();
+    }
+    public ArrayList<Item> getTempOwnItems() {
+        ArrayList<Item> tempItems = new ArrayList<>();
+        for (Item item: getOwnItems()) {
+            if(item.getQuantity() != 0) {
+                if (item instanceof Weapon) {
+                    if (item instanceof Knife knife) {
+                        tempItems.add(new Knife(knife));
+                    } else if (item instanceof Sword sword) {
+                        tempItems.add(new Sword(sword));
+                    } else if (item instanceof Spear spear) {
+                        tempItems.add(new Spear(spear));
+                    }
+                } else if (item instanceof Armor) {
+                    if (item instanceof Helmet helmet) {
+                        tempItems.add(new Helmet(helmet));
+                    } else if (item instanceof Torso torso) {
+                        tempItems.add(new Torso(torso));
+                    } else if (item instanceof Gloves gloves) {
+                        tempItems.add(new Gloves(gloves));
+                    } else if (item instanceof Leggings leggings) {
+                        tempItems.add(new Leggings(leggings));
+                    } else if (item instanceof Boots boots) {
+                        tempItems.add(new Boots(boots));
+                    }
+                } else if (item instanceof Potion potion) {
+                    tempItems.add(new Potion(potion));
+                }
+            }
+        }
+        return tempItems;
+    }
+    public void addItem(String itemName) {
+        ArrayList<String> itemNames = new ArrayList<>();
+        for (int i = 0; i < getOwnItems().size(); i++) {
+            itemNames.add(getOwnItems().get(i).getItemName());
+        }
+        if (!(itemNames.contains(itemName))) {
+            getOwnItems().add(searchItem(itemName));
         } else {
-            System.out.println("You Have That Item.");
+            getOwnItem(itemName).setQuantity(getOwnItem(itemName).getQuantity() + 1);
         }
     }
     public Item getItem(String itemName) {
-        Item temp_item = searchItem(itemName);
-        return temp_item;
+        return searchItem(itemName);
     }
     public Item getItem(int itemIndex) {
-        Item temp_item = searchItem(itemIndex);
-        return temp_item;
+        return searchItem(itemIndex);
+    }
+    public Item getOwnItem(String itemName) {
+        if (searchOwnItem(itemName).getQuantity() != 0) {
+            return searchOwnItem(itemName);
+        }
+        return null;
+    }
+    public Item getOwnItem(int itemIndex) {
+        return searchOwnItem(itemIndex);
     }
     public Item searchItem(String itemName) {
         for (Item item: getItems()) {
@@ -188,7 +143,14 @@ class Inventory extends ItemManager {
         }
         return null;
     }
-
+    public Item searchOwnItem(String itemName) {
+        for (Item item: getOwnItems()) {
+            if (item.getItemName().equalsIgnoreCase(itemName)) {
+                return item;
+            }
+        }
+        return null;
+    }
     public Item searchItem(int itemIndex) {
         try {
             return getItems().get(itemIndex);
@@ -196,77 +158,72 @@ class Inventory extends ItemManager {
             return null;
         }
     }
-
-    public Weapon getItemWeapon() {
-        if (this.weapon != null) {
-            return this.weapon;
+    public Item searchOwnItem(int itemIndex) {
+        try {
+            return getOwnItems().get(itemIndex);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+    public Weapon getEquippedWeapon() {
+        if (this.equippedWeapon != null) {
+            return this.equippedWeapon;
         } else {
             return getNoWeapon();
         }
     }
-
-    public void setItemWeapon(Weapon weapon) {
-        this.weapon = weapon;
+    public void setEquippedWeapon(Weapon equippedWeapon) {
+        this.equippedWeapon = equippedWeapon;
     }
-
-    public Armor getItemHelmet() {
-        if (this.helmet != null) {
-            return this.helmet;
+    public Armor getEquippedHelmet() {
+        if (this.equippedHelmet != null) {
+            return this.equippedHelmet;
         } else {
             return getNoArmor();
         }
     }
-
-    public void setItemHelmet(Helmet helmet) {
-        this.helmet = helmet;
+    public void setEquippedHelmet(Helmet equippedHelmet) {
+        this.equippedHelmet = equippedHelmet;
     }
-
-    public Armor getItemTorso() {
-        if (this.torso != null) {
-            return this.torso;
+    public Armor getEquippedTorso() {
+        if (this.equippedTorso != null) {
+            return this.equippedTorso;
         } else {
             return getNoArmor();
         }
     }
-
-    public void setItemTorso(Torso torso) {
-        this.torso = torso;
+    public void setEquippedTorso(Torso equippedTorso) {
+        this.equippedTorso = equippedTorso;
     }
-
-    public Armor getItemGloves() {
-        if (this.gloves != null) {
-            return this.gloves;
+    public Armor getEquippedGloves() {
+        if (this.equippedGloves != null) {
+            return this.equippedGloves;
         } else {
             return getNoArmor();
         }
     }
-
-    public void setItemGloves(Gloves gloves) {
-        this.gloves = gloves;
+    public void setEquippedGloves(Gloves equippedGloves) {
+        this.equippedGloves = equippedGloves;
     }
-
-    public Armor getItemLeggings() {
-        if (this.leggings != null) {
-            return this.leggings;
+    public Armor getEquippedLeggings() {
+        if (this.equippedLeggings != null) {
+            return this.equippedLeggings;
         } else {
             return getNoArmor();
         }
     }
-
-    public void setItemLeggings(Leggings leggings) {
-        this.leggings = leggings;
+    public void setEquippedLeggings(Leggings equippedLeggings) {
+        this.equippedLeggings = equippedLeggings;
     }
-
-    public Armor getItemBoots() {
-        if (this.boots != null) {
-            return this.boots;
+    public Armor getEquippedBoots() {
+        if (this.equippedBoots != null) {
+            return this.equippedBoots;
         } else {
             return getNoArmor();
         }
     }
-
-    public void setItemBoots(Boots boots) {
-        this.boots = boots;
+    public void setEquippedBoots(Boots equippedBoots) {
+        this.equippedBoots = equippedBoots;
     }
 
     public Weapon getNoWeapon() {
@@ -281,63 +238,189 @@ class Inventory extends ItemManager {
         return noArmor;
     }
 
+    public ArrayList<Item> getOwnItems() {
+        return ownItems;
+    }
+
+    public void setOwnItems(ArrayList<Item> ownItems) {
+        this.ownItems = ownItems;
+    }
+
     public void setNoArmor(Armor noArmor) {
         this.noArmor = noArmor;
     }
-    public void displayItems(String itemType, List<? extends Item> items) {
-        System.out.println("Available " + itemType + " To Equip Are: ");
-        for (int i = 0; i < items.size(); i++) {
-            if (i == 0) {
-                System.out.print("| ");
-            }
-            System.out.print(items.get(i).getItemName());
-            if (i < (items.size() - 1)) {
-                System.out.print("  |   ");
-            }
-            if (i == (items.size() - 1)) {
-                System.out.println("    |");
-                System.out.println();
-            }
-        }
-    }
-    public void askEquipItem(String itemType, List<? extends Item> items) {
-        this.displayItems(itemType, items);
-        System.out.println("What " + itemType + " Would You Like To Equip: ");
-
-        try {
-            Scanner input = new Scanner(System.in);
-
-            String choice = input.nextLine();
-            Item chosenItem = searchItem(choice);
-
-            if(chosenItem != null) {
-                switch(itemType.toLowerCase()) {
-                    case "weapon":
-                        setItemWeapon((Weapon) chosenItem);
-                        break;
-                    case "helmet":
-                        setItemHelmet((Helmet) chosenItem);
-                        break;
-                    case "torso":
-                        setItemTorso((Torso) chosenItem);
-                        break;
-                    case "gloves":
-                        setItemGloves((Gloves) chosenItem);
-                        break;
-                    case "leggings":
-                        setItemLeggings((Leggings) chosenItem);
-                        break;
-                    case "boots":
-                        setItemBoots((Boots) chosenItem);
-                        break;
-                    default:
-                        throw new IncorrectWeaponNameException("Could Not Find " + itemType + ": " + choice);
+    public ArrayList<Knife> getKnives() {
+        for(Item item: getOwnItems()) {
+            if (item instanceof Weapon) {
+                if (item instanceof Knife) {
+                    if (item.getQuantity() != 0) {
+                        knives.add((Knife) item);
+                    }
                 }
-            } else {
-                throw new IncorrectWeaponNameException("Could Not Find " + itemType + ": " + choice);
             }
-        } catch (IncorrectWeaponNameException e) {
-            System.out.println(e);
         }
+        return knives;
+    }
+
+    public void setKnives(ArrayList<Knife> knives) {
+        this.knives = knives;
+    }
+
+    public ArrayList<Sword> getSwords() {
+        for(Item item: getOwnItems()) {
+            if (item instanceof Weapon) {
+                if (item instanceof Sword) {
+                    if (item.getQuantity() != 0) {
+                        swords.add((Sword) item);
+                    }
+                }
+            }
+        }
+        return swords;
+    }
+
+    public void setSwords(ArrayList<Sword> swords) {
+        this.swords = swords;
+    }
+
+    public ArrayList<Spear> getSpears() {
+        for(Item item: getOwnItems()) {
+            if (item instanceof Weapon) {
+                if (item instanceof Spear) {
+                    if (item.getQuantity() != 0) {
+                        spears.add((Spear) item);
+                    }
+                }
+            }
+        }
+        return spears;
+    }
+
+    public void setSpears(ArrayList<Spear> spears) {
+        this.spears = spears;
+    }
+
+    public ArrayList<Helmet> getHelmets() {
+        for(Item item: getOwnItems()) {
+            if (item instanceof Armor) {
+                if (item instanceof Helmet) {
+                    if (item.getQuantity() != 0) {
+                        helmets.add((Helmet) item);
+                    }
+                }
+            }
+        }
+        return helmets;
+    }
+
+    public void setHelmets(ArrayList<Helmet> helmets) {
+        this.helmets = helmets;
+    }
+
+    public ArrayList<Torso> getTorsos() {
+        for(Item item: getOwnItems()) {
+            if (item instanceof Armor) {
+                if (item instanceof Torso) {
+                    if (item.getQuantity() != 0) {
+                        torsos.add((Torso) item);
+                    }
+                }
+            }
+        }
+        return torsos;
+    }
+
+    public void setTorsos(ArrayList<Torso> torsos) {
+        this.torsos = torsos;
+    }
+
+    public ArrayList<Gloves> getGloves() {
+        for(Item item: getOwnItems()) {
+            if (item instanceof Armor) {
+                if (item instanceof Gloves) {
+                    if (item.getQuantity() != 0) {
+                        gloves.add((Gloves) item);
+                    }
+                }
+            }
+        }
+        return gloves;
+    }
+
+    public void setGloves(ArrayList<Gloves> gloves) {
+        this.gloves = gloves;
+    }
+
+    public ArrayList<Leggings> getLeggings() {
+        for(Item item: getOwnItems()) {
+            if (item instanceof Armor) {
+                if (item instanceof Leggings) {
+                    if (item.getQuantity() != 0) {
+                        leggings.add((Leggings) item);
+                    }
+                }
+            }
+        }
+        return leggings;
+    }
+
+    public void setLeggings(ArrayList<Leggings> leggings) {
+        this.leggings = leggings;
+    }
+
+    public ArrayList<Boots> getBoots() {
+        for(Item item: getOwnItems()) {
+            if (item instanceof Armor) {
+                if (item instanceof Boots) {
+                    if (item.getQuantity() != 0) {
+                        boots.add((Boots) item);
+                    }
+                }
+            }
+        }
+        return boots;
+    }
+    public void setBoots(ArrayList<Boots> boots) {
+        this.boots = boots;
+    }
+    public void searchWeapons() {
+        ArrayList<Weapon> temp_weapons = new ArrayList<>();
+
+        for(Item item: getOwnItems()) {
+            if (item instanceof Weapon) {
+                if (item.getQuantity() != 0) {
+                    temp_weapons.add((Weapon) item);
+                }
+            }
+        }
+        setWeapons(temp_weapons);
+    }
+    public void searchArmors() {
+        ArrayList<Armor> temp_armors = new ArrayList<>();
+
+        for(Item item: getOwnItems()) {
+            if (item instanceof Armor) {
+                if (item.getQuantity() != 0) {
+                    temp_armors.add((Armor) item);
+                }
+            }
+        }
+        setArmors(temp_armors);
+    }
+
+    public ArrayList<Weapon> getWeapons() {
+        searchWeapons();
+        return this.weapons;
+    }
+    public void setWeapons(ArrayList<Weapon> weapons) {
+        this.weapons = weapons;
+    }
+    public ArrayList<Armor> getArmors() {
+        searchArmors();
+        return this.armors;
+    }
+
+    public void setArmors(ArrayList<Armor> armors) {
+        this.armors = armors;
     }
 }

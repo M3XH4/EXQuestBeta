@@ -40,10 +40,10 @@ class Boar extends Enemy {
 }
 class LesserVampire extends Enemy {
     public LesserVampire() {
-        super("Lesser Vampire", "Blah Bla-Blahhh, I Drain Your Blood To The Brim", 60, 75, new ArrayList<>(Arrays.asList(
+        super("Lesser Vampire", "Blah Bla-Blahhh, I Will Drain Your Blood To The Brim", 60, 75, new ArrayList<>(Arrays.asList(
                 new Skills("Blood Control: Blood Bullet", 8),
                 new Skills("Bite", 5),
-                new Skills("Blod Control: Blood Zone Break", 13)
+                new Skills("Blood Control: Blood Zone Break", 13)
         )));
     }
 }

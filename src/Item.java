@@ -3,18 +3,37 @@ public class Item {
     private String itemDesc;
     private int statsValue;
     private int marketValue;
+    private int quantity;
 
     public Item(String itemName, int statsValue, int marketValue) {
-        this.itemName = itemName;
-        this.statsValue = statsValue;
-        this.marketValue = marketValue;
+        setItemName(itemName);
+        setStatsValue(statsValue);
+        setMarketValue(marketValue);
+        setQuantity(1);
     }
 
     public Item(String itemName, String itemDesc, int statsValue, int marketValue) {
-        this.itemName = itemName;
-        this.itemDesc = itemDesc;
-        this.statsValue = statsValue;
-        this.marketValue = marketValue;
+        setItemName(itemName);
+        setItemDesc(itemDesc);
+        setStatsValue(statsValue);
+        setMarketValue(marketValue);
+        setQuantity(1);
+    }
+
+    public Item(Item item) {
+        setItemName(item.getItemName());
+        setItemDesc(item.getItemDesc());
+        setStatsValue(item.getStatsValue());
+        setMarketValue(item.getMarketValue());
+        setQuantity(item.getQuantity());
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getItemDesc() {
@@ -26,7 +45,7 @@ public class Item {
     }
 
     public String getItemName() {
-        return itemName;
+        return this.itemName;
     }
 
     public void setItemName(String itemName) {
@@ -48,23 +67,39 @@ public class Item {
     public void setMarketValue(int marketValue) {
         this.marketValue = marketValue;
     }
-
-    public void displayItem() {
-        String itemTitle = this.getItemName() + " ----------------";
-        System.out.println(itemTitle);
-        System.out.println("Desc:   " + this.getItemDesc());
-        System.out.println("Type:   " + this.getClass().getSimpleName());
-        Global.placeLine(itemTitle);
-        this.displayItemStats();;
-        Global.placeLine(itemTitle);
-        System.out.println("Value:  " + this.getMarketValue());
+}
+class Potion extends Item {
+    Global.AttributeType attribute;
+    public Potion(String itemName, String itemDesc, int statsValue, int marketValue, Global.AttributeType attribute) {
+        super(itemName, itemDesc, statsValue, marketValue);
+        setAttribute(attribute);
     }
-    public void displayItemStats() {
-        if (this instanceof Weapon) {
-            System.out.println("ATK:    " + this.getStatsValue());
-        } else if (this instanceof Armor) {
-            System.out.println("HP:    " + this.getStatsValue());
+
+    public Potion(Item item) {
+        super(item);
+        setAttribute(getAttribute());
+    }
+
+    public void drinkPotion(Stats player) {
+        if (getQuantity() != 0) {
+            boolean drinkedSuccessfully = player.addAttribute(getAttribute(), getStatsValue());
+            if(drinkedSuccessfully) {
+                System.out.println("Spirit Guide: Successfully Drank " + getItemName() + " Potion");
+                setQuantity(getQuantity() - 1);
+            } else {
+                System.out.println("Spirit Guide: You Did Not Drink The Potion, Warrior " + player.getName() + ".");
+            }
+        } else {
+            System.out.println("Spirit Guide: You Don't Have " + getItemName() + " In Your Inventory.");
         }
+    }
+
+    public Global.AttributeType getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(Global.AttributeType attribute) {
+        this.attribute = attribute;
     }
 }
 // WEAPONS
@@ -75,6 +110,10 @@ class Weapon extends Item {
 
     public Weapon(String itemName, int statsValue, int marketValue) {
         super(itemName, statsValue, marketValue);
+    }
+
+    public Weapon(Weapon item) {
+        super(item);
     }
 }
 class NoItemWeapon extends Weapon {
@@ -90,6 +129,10 @@ class Sword extends Weapon {
     public Sword(String itemName, int statsValue, int marketValue) {
         super(itemName, statsValue, marketValue);
     }
+
+    public Sword(Sword item) {
+        super(item);
+    }
 }
 class Knife extends Weapon {
     public Knife(String itemName, String itemDesc, int statsValue, int marketValue) {
@@ -99,6 +142,10 @@ class Knife extends Weapon {
     public Knife(String itemName, int statsValue, int marketValue) {
         super(itemName, statsValue, marketValue);
     }
+
+    public Knife(Knife item) {
+        super(item);
+    }
 }
 class Spear extends Weapon {
     public Spear(String itemName, String itemDesc, int statsValue, int marketValue) {
@@ -107,6 +154,10 @@ class Spear extends Weapon {
 
     public Spear(String itemName, int statsValue, int marketValue) {
         super(itemName, statsValue, marketValue);
+    }
+
+    public Spear(Spear item) {
+        super(item);
     }
 }
 
@@ -118,6 +169,10 @@ class Armor extends Item {
 
     public Armor(String itemName, int statsValue, int marketValue) {
         super(itemName, statsValue, marketValue);
+    }
+
+    public Armor(Armor item) {
+        super(item);
     }
 }
 class NoItemArmor extends Armor {
@@ -133,6 +188,10 @@ class Helmet extends Armor {
     public Helmet(String itemName, int statsValue, int marketValue) {
         super(itemName, statsValue, marketValue);
     }
+
+    public Helmet(Helmet helmet) {
+        super(helmet);
+    }
 }
 class Torso extends Armor {
     public Torso(String itemName, String itemDesc, int statsValue, int marketValue) {
@@ -141,6 +200,10 @@ class Torso extends Armor {
 
     public Torso(String itemName, int statsValue, int marketValue) {
         super(itemName, statsValue, marketValue);
+    }
+
+    public Torso(Torso item) {
+        super(item);
     }
 }
 class Gloves extends Armor {
@@ -151,6 +214,10 @@ class Gloves extends Armor {
     public Gloves(String itemName, int statsValue, int marketValue) {
         super(itemName, statsValue, marketValue);
     }
+
+    public Gloves(Gloves item) {
+        super(item);
+    }
 }
 class Leggings extends Armor {
     public Leggings(String itemName, String itemDesc, int statsValue, int marketValue) {
@@ -160,6 +227,10 @@ class Leggings extends Armor {
     public Leggings(String itemName, int statsValue, int marketValue) {
         super(itemName, statsValue, marketValue);
     }
+
+    public Leggings(Leggings item) {
+        super(item);
+    }
 }
 class Boots extends Armor {
     public Boots(String itemName, String itemDesc, int statsValue, int marketValue) {
@@ -168,5 +239,9 @@ class Boots extends Armor {
 
     public Boots(String itemName, int statsValue, int marketValue) {
         super(itemName, statsValue, marketValue);
+    }
+
+    public Boots(Boots item) {
+        super(item);
     }
 }

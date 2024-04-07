@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.*;
 public class Scenario {
     private Scanner input;
@@ -61,36 +62,7 @@ class Screen extends Scenario {
     }
 
     public void startScreen() {
-        getPlayer().displayFullStats();
-        String commandsHelpMsg = "| ( Equip ) - Equip Your Equipments | ( Open ) - Open Inventory | ( View ) - View Your Spells | ( Roam ) - Roam Around |";
-        System.out.println("Spirit Guide: What Would You Like To Do?");
-        Global.placeLine(commandsHelpMsg);
-        System.out.println(commandsHelpMsg);
-        Global.placeLine(commandsHelpMsg);
-        System.out.print("Your Response - ");
-        String playerCommand = getInput().nextLine();
-
-        if (playerCommand.equalsIgnoreCase("Equip")) {
-
-            String equipHelpMsg = "| ( Weapon ) - Equip Weapon\t| ( Helmet ) - Equip Helmet \t| ( Armor ) - Equip Armor\t|";
-            String equipHelpMsg2 = "| ( Gloves ) - Equip Gloves\t| ( Leggings ) - Equip Leggings\t| ( Boots)  - Equip Boots\t|";
-            System.out.println("Spirit Guide: Which Equipment Types Would You Like To Equip");
-            Global.placeLine(equipHelpMsg2, 2);
-            System.out.println(equipHelpMsg);
-            System.out.println(equipHelpMsg2);
-            Global.placeLine(equipHelpMsg2, 2);
-            System.out.print("Your Response - ");
-            String equipCommand = getInput().nextLine();
-
-        } else if (playerCommand.equalsIgnoreCase("Open")) {
-
-        } else if (playerCommand.equalsIgnoreCase("View")) {
-
-        } else if (playerCommand.equalsIgnoreCase("Roam")) {
-            System.out.println("Warrior " + getPlayer().getName() + " Is Roaming Around...");
-            Global.pause();
-        } else {
-        }
+        getCLI().playerScreenDiplay();
     }
 }
 class Market extends Scenario {
@@ -104,16 +76,14 @@ class Battle extends Scenario {
     }
 
     public void startBattle() {
-        getEnemy().setHealth(getEnemy().getMaxHealth());
-        getEnemy().attacking();
-
         String[] battleMessage = {
                 "Spirit Guide: Be Careful, " + getEnemy().getName() + " Is Heading Your Way.",
                 "Spirit Guide: " + getEnemy().getName() + " Ambushes You, Warrior " + getPlayer().getName() + " Heed Carefully"
         };
-
+        getEnemy().setHealth(getEnemy().getMaxHealth());
         String temp_title = "------- Battle Starting -------";
         System.out.println(battleMessage[getRandom().nextInt(battleMessage.length)]);
+        getEnemy().attacking();
         System.out.println(temp_title);
 
         int turn = 1;
@@ -124,12 +94,13 @@ class Battle extends Scenario {
             if (!(turn % 2 == 0)) {
                 getCLI().playerTurnDisplay();
                 Global.pause();
+                Global.placeLine(temp_title);
             } else {
                 getCLI().enemyTurnDisplay();
-                Global.placeLine(temp_title);
                 Global.pause();
+                Global.placeLine(temp_title);
             }
-            addManaPerTurn();
+            getPlayer().addAttribute(Global.AttributeType.Mana, 10);
             turn ++;
             Global.placeLine(temp_title);
         }
@@ -139,14 +110,6 @@ class Battle extends Scenario {
         } else if (getEnemy().getHealth() <= 0) {
             getCLI().winDisplay();
             Global.pause();
-        }
-    }
-    public void addManaPerTurn() {
-        if (getPlayer().getMana() <= getPlayer().getMaxMana()) {
-            getPlayer().setMana(getPlayer().getMana() + 10);
-            if (getPlayer().getMana() > getPlayer().getMaxMana()) {
-                getPlayer().setMana(getPlayer().getMaxMana());
-            }
         }
     }
 }

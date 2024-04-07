@@ -11,13 +11,52 @@ public class Stats {
     private int level = 0;
     private ArrayList<Skills> skills;
     public void displayStats() {
-        String nameTitle = "-------- " + getName() + " --------";
+        String nameTitle = "|--------------- " + getName() + " ---------------|";
+        Global.placeLine(nameTitle);
         System.out.println(nameTitle);
-        System.out.println("| Health:\t" + getHealth() + "/" + getMaxHealth() + "\t|");
+        System.out.println("| Health:\t" + Global.spacerString(24, getHealth() + "/" + getMaxHealth()) + " |");
         if (this instanceof Player player) {
-            System.out.println("| Mana:\t\t" + player.getMana() + "/" + getMana() + "\t|");
+            System.out.println("| Mana:\t\t" + Global.spacerString(24, player.getMana() + "/" + player.getMaxMana()) + " |");
         }
         Global.placeLine(nameTitle);
+    }
+    public boolean addAttribute(Global.AttributeType attribute, int amount) {
+        if (this instanceof Player player) {
+            switch (attribute) {
+                case Mana -> {
+                    if (player.getMana() <= player.getMana()) {
+                        player.setMana(player.getMana() + amount);
+                        if (player.getMana() > player.getMaxMana()) {
+                            player.setMana(player.getMaxMana());
+                        }
+                        System.out.println("Spirit Guide: Mana is Restored To " + player.getMana() + ".");
+                        return true;
+                    } else {
+                        System.out.println("Spirit Guide: Mana Is Full, I Advice You To Not Drink A Mana Potion");
+                        return false;
+                    }
+                }
+                case Health -> {
+                    if (player.getHealth() <= player.getMaxHealth()) {
+                        player.setHealth(player.getHealth() + amount);
+                        if (player.getHealth() > player.getMaxHealth()) {
+                            player.setHealth(player.getMaxHealth());
+                        }
+                        System.out.println("Spirit Guide: Health is Restored To " + player.getHealth() + ".");
+                        return true;
+                    } else {
+                        System.out.println("Spirit Guide: Health Is Full, I Advice You To Not Drink A Health Potion");
+                        return false;
+                    }
+                }
+                case Attack -> {
+                    player.getSkills().getFirst().setSkillAttackValue(player.getSkillAttackValue() + amount);
+                    System.out.println("Spirit Guide: Attack Has Increased To " + player.getSkillAttackValue());
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     public void attacking() {
         if (this instanceof Player player) {
