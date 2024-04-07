@@ -62,7 +62,7 @@ class Screen extends Scenario {
     }
 
     public void startScreen() {
-        getCLI().playerScreenDiplay();
+        getCLI().playerScreenDisplay();
     }
 }
 class Market extends Scenario {

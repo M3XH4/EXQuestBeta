@@ -2,9 +2,9 @@ import java.util.*;
 public class Adventure {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        System.out.println("Leather Helmet                ".length());
+        System.out.println("--------------------------------------------------------".length());
         boolean gameLoop = true;
-        String gameTitle = "---------------------------------------------- EXQuest ----------------------------------------------";
+        String gameTitle = "-------------------------------------------------------       EXQuest       -------------------------------------------------------";
         System.out.println(gameTitle);
         System.out.println("Unknown Person: Good Day Traveller, What Is Your Name? ");
         System.out.print("Your Name - ");
