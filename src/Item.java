@@ -68,7 +68,16 @@ public class Item {
         this.marketValue = marketValue;
     }
 }
-class Potion extends Item {
+class Consumables extends Item {
+    public Consumables(String itemName, String itemDesc, int statsValue, int marketValue) {
+        super(itemName, itemDesc, statsValue, marketValue);
+    }
+
+    public Consumables(Item item) {
+        super(item);
+    }
+}
+class Potion extends Consumables {
     Global.AttributeType attribute;
     public Potion(String itemName, String itemDesc, int statsValue, int marketValue, Global.AttributeType attribute) {
         super(itemName, itemDesc, statsValue, marketValue);
@@ -82,9 +91,10 @@ class Potion extends Item {
 
     public void drinkPotion(Stats player) {
         if (getQuantity() != 0) {
-            boolean drinkedSuccessfully = player.addAttribute(getAttribute(), getStatsValue());
-            if(drinkedSuccessfully) {
+            boolean drankSuccessfully = player.addAttribute(getAttribute(), getStatsValue());
+            if(drankSuccessfully) {
                 System.out.println("Spirit Guide: Successfully Drank " + getItemName() + " Potion");
+                System.out.println("Spirit Guide: Successfully Restored " + getAttribute() + " To " + player.getMaxHealth() + ".");
                 setQuantity(getQuantity() - 1);
             } else {
                 System.out.println("Spirit Guide: You Did Not Drink The Potion, Warrior " + player.getName() + ".");

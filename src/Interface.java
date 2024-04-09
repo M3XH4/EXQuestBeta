@@ -5,6 +5,7 @@ public class Interface {
     private Enemy enemy;
     private Random random;
     private Scanner input;
+    private Inventory inventory;
     boolean commandLoop = true;
     boolean spellLoop = true;
     boolean spellSelectLoop = true;
@@ -12,10 +13,14 @@ public class Interface {
     boolean equipScreenLoop = true;
     boolean equipSelectLoop = true;
     boolean inventorySelectLoop = true;
+    boolean consumableSelectLoop = true;
+    boolean spellsSelectLoop = true;
+    boolean marketSelectLoop = true;
     private final String tempTitle = "------- Battle Starting -------";
     public Interface(Player player, Enemy enemy) {
         setInput(new Scanner(System.in));
         setRandom(new Random());
+        setInventory(new Inventory());
 
         setPlayer(player);
         setEnemy(enemy);
@@ -37,7 +42,7 @@ public class Interface {
             } else if (playerCommand.equalsIgnoreCase("Open")) {
                 openInventoryDisplay();
             } else if (playerCommand.equalsIgnoreCase("View")) {
-
+                viewSpellDisplay();
             } else if (playerCommand.equalsIgnoreCase("Roam")) {
                 System.out.println("Warrior " + getPlayer().getName() + " Is Roaming Around...");
                 playerScreenLoop = false;
@@ -47,11 +52,25 @@ public class Interface {
             }
         } while (playerScreenLoop);
     }
+    public void viewSpellDisplay() {
+        do {
+            spellsSelectLoop = true;
+            getPlayer().getGrimoire().displayOwnSpells();
+            System.out.println("Spirit Guide: Would You Like To Go Back? (Back)");
+            System.out.print("Your Response - ");
+            String spellsSelect = getInput().nextLine();
+            if (spellsSelect.equalsIgnoreCase("Back")) {
+                spellsSelectLoop = false;
+            } else {
+                confuseMessage(2);
+            }
+        } while (spellsSelectLoop);
+    }
     public void equipEquipmentsDisplay() {
         do {
             String equipHelpMsg = "|          ( Weapon ) - Equip Weapon         |        ( Helmet )   - Equip Helmet          |         ( Armor ) - Equip Armor       |";
             String equipHelpMsg2 = "|          ( Gloves ) - Equip Gloves         |        ( Leggings ) - Equip Leggings        |         ( Boots)  - Equip Boots       |";
-            System.out.println("Spirit Guide: Which Equipment Types Would You Like To Equip Or Would You Like To Go Back? (Back))");
+            System.out.println("Spirit Guide: Which Equipment Types Would You Like To Equip Or Would You Like To Go Back? (Back)");
             Global.placeLine(equipHelpMsg2);
             System.out.println(equipHelpMsg);
             System.out.println(equipHelpMsg2);
@@ -191,8 +210,8 @@ public class Interface {
                         throw new IncorrectWeaponNameException("Spirit Guide: You Don't Have That Item In Your Inventory.");
                     }
                 }
-            } catch (IncorrectWeaponNameException e) {
-                System.out.println(e);
+            } catch (Exception e) {
+                System.out.println("Spirit Guide: Consumable Is Not In Inventory");
             }
         } while(equipSelectLoop);
     }
@@ -211,7 +230,8 @@ public class Interface {
                 inventorySelectLoop = false;
                 equipEquipmentsDisplay();
             } else if (inventorySelect.equalsIgnoreCase("Consume")) {
-
+                inventorySelectLoop = false;
+                consumeConsumablesDisplay();
             }
             else if (inventorySelect.equalsIgnoreCase("Back")) {
                 inventorySelectLoop = false;
@@ -219,6 +239,140 @@ public class Interface {
                 confuseMessage(2);
             }
         } while (inventorySelectLoop);
+    }
+    public void consumeConsumablesDisplay() {
+        do {
+            consumableSelectLoop = true;
+            getPlayer().getInventory().displayOwnItems(getPlayer().getInventory().getConsumables());
+            System.out.println("Spirit Guide: Which Consumables Would You Like To Consume Or Would You Like To Go Back? (Back)");
+            try {
+                Scanner input = new Scanner(System.in);
+                System.out.print("Your Response - ");
+                String choice = input.nextLine();
+                Item chosenItem = getPlayer().getInventory().searchItem(choice);
+
+                if (chosenItem != null) {
+                    if (chosenItem instanceof Potion potion) {
+                        try {
+                            if (chosenItem.getQuantity() != 0) {
+                                potion.drinkPotion(getPlayer());
+                                consumableSelectLoop = false;
+                            } else {
+                                System.out.println("Spirit Guide: You Don't Have That Item In Inventory.");
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Spirit Guide: You Cannot Consume This Consumable.");
+                        }
+                    }
+                } else {
+                    if (choice.equalsIgnoreCase("Back")) {
+                        consumableSelectLoop = false;
+                    } else {
+                        System.out.println("Spirit Guide: You Cannot Consume This Consumable.");
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Spirit I Could Not Find That Consumable In Your Inventory.");
+            }
+        } while(consumableSelectLoop);
+    }
+    public void marketDisplay(Set<? extends Item> sellItems) {
+        System.out.println("Travelling Merchant: Welcome Customer, These Are Things That I'm Selling Today.");
+        Global.pause();
+        do {
+            Set<? extends Item> sellTempItems = Market.getSellTempItems(sellItems);
+            getInventory().displaySellItems(sellTempItems);
+            System.out.println("Travelling Merchant: Would You Like To Buy Or Sell Items: (Buy/Sell/Leave)");
+            System.out.print("Your Response - ");
+            String marketSelect = getInput().nextLine();
+            if (marketSelect.equalsIgnoreCase("Buy")) {
+                boolean buySelectLoop = true;
+                do {
+                    System.out.println("Travelling Merchant: Which Item Would You Like To Buy? (Back)");
+                    System.out.print("Your Response - ");
+                    String buySelect = getInput().nextLine();
+                    if (!(buySelect.equalsIgnoreCase("Back"))){
+                        Item item = getInventory().getItem(buySelect);
+                        boolean itemExist = false;
+                        for (Item sellItem: sellItems) {
+                            if (sellItem.getItemName().equals(item.getItemName())) {
+                                itemExist = true;
+                                break;
+                            }
+                        }
+                        if (item != null && itemExist) {
+                            boolean buyingSelectLoop = true;
+                            System.out.println("Travelling Merchant: The Item You Are Trying To Buy Is " + item.getItemName() + " At " + item.getMarketValue() + " Coins.");
+                            if (getPlayer().getCoins() >= item.getMarketValue()) {
+                                int buyTurn = 1;
+                                do {
+                                    if (buyTurn == 1) {
+                                        System.out.println("Travelling Merchant: Would You Like To Purchase Item? (Yes/No)");
+                                    } else {
+                                        System.out.println("Travelling Merchant: Would You Like To Purchase " + item.getItemName() + " Again? (Yes/No)");
+                                    }
+                                    System.out.print("Your Response - ");
+                                    String buyingSelect = getInput().nextLine();
+                                    if (buyingSelect.equalsIgnoreCase("Yes")) {
+                                        getPlayer().setCoins(getPlayer().getCoins() - item.getMarketValue());
+                                        System.out.println("Travelling Merchant: Thank You For Purchasing.");
+                                        System.out.println("Spirit Guide: You Have Lose " + item.getMarketValue() + " Coins From Purchasing " + item.getItemName() + ".");
+                                        getPlayer().getInventory().addItem(item.getItemName());
+                                        buyTurn++;
+                                    } else if (buyingSelect.equalsIgnoreCase("No")) {
+                                        buyingSelectLoop = false;
+                                        getInventory().displaySellItems(sellTempItems);
+                                    } else {
+                                        confuseMessage(2);
+                                    }
+                                } while (buyingSelectLoop);
+                            } else {
+                                System.out.println("Spirit Guide: You Don't Have The Sufficient Coins To Purchase That Item.");
+                                buySelectLoop = false;
+                            }
+                        } else {
+                            try {
+                                if (item != null) {
+                                    System.out.println("Travelling Merchant: Your Item Is The " + item.getItemName() + ".");
+                                    System.out.println("Travelling Merchant: I'm Sorry, But I Don't Have That Item Today. Let Me Ask Again.");
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Travelling Merchant: I Don't Understand What That Item Is. Let Me Asks Again");
+                            }
+                        }
+                    } else {
+                        if (buySelect.equalsIgnoreCase("Back")) {
+                            buySelectLoop = false;
+                        } else {
+                            confuseMessage(2);
+                        }
+                    }
+                } while (buySelectLoop);
+            } else if (marketSelect.equalsIgnoreCase("Sell")) {
+                boolean sellSelectLoop = true;
+                do {
+                    System.out.println("Travelling Merchant: I Purchase Items At 65% Of Their Original Value.");
+                    Global.pause();
+                    getPlayer().getInventory().displayOwnItems(getPlayer().getInventory().getTempOwnItems());
+                    System.out.println("Travelling Merchant: What Item Would You Like To Sell? (Back)");
+                    System.out.print("Your Response - ");
+                    String sellSelect = getInput().nextLine();
+                    if(!(sellSelect.equalsIgnoreCase("Back"))) {
+
+                    } else {
+                        if (sellSelect.equalsIgnoreCase("Back")) {
+                            sellSelectLoop = false;
+                        } else {
+                            confuseMessage(2);
+                        }
+                    }
+                } while (sellSelectLoop);
+            } else if (marketSelect.equalsIgnoreCase("Leave")) {
+                marketSelectLoop = false;
+            } else {
+                confuseMessage(2);
+            }
+        } while (marketSelectLoop);
     }
     public void enemyTurnDisplay() {
         System.out.println(getEnemy().getName() + "'s Turn");
@@ -252,9 +406,9 @@ public class Interface {
                 } while(attackLoop);
             } else if (command.equalsIgnoreCase("Spell")) {
                 if (!(getPlayer().getGrimoire().getOwnSpells().isEmpty())) {
-                    System.out.println("Spirit Guide: Do You Want To Cast Spell? (Yes/No)");
                     do {
-                        System.out.print("Your Response -  ");
+                        System.out.println("Spirit Guide: Do You Want To Cast Spell? (Yes/No)");
+                        System.out.print("Your Response - ");
                         String spellAnswer = getInput().nextLine();
                         if (spellAnswer.equalsIgnoreCase("Yes")) {
                             System.out.print("Spirit Guide: What Spell Would You Like To Use: ");
@@ -291,7 +445,7 @@ public class Interface {
                         } else if (spellAnswer.equalsIgnoreCase("No")) {
                             spellLoop = false;
                         } else {
-                            confuseMessage(1);
+                            confuseMessage(2);
                         }
 
                     } while (spellLoop);
@@ -365,6 +519,8 @@ public class Interface {
         System.out.println("Spirit Guide: You Defeated " + getEnemy().getName());
         System.out.println("Spirit Guide: Congratulations!!!");
         getPlayer().levelUp(getEnemy());
+        getPlayer().setCoins(getPlayer().getCoins() + getEnemy().getCoins());
+        System.out.println("Spirit Guide: You Acquired " + getEnemy().getCoins() + " Coins From " + getEnemy().getName() + ".");
         Global.placeLine(tempTitle);
         System.out.println("Returning To Player Screen...");
     }
@@ -414,4 +570,11 @@ public class Interface {
         this.input = input;
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
 }

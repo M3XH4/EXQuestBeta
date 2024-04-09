@@ -4,7 +4,8 @@ public class Global {
     public enum AttributeType {
         Mana,
         Health,
-        Attack
+        Attack,
+        Heal
     }
     public static void placeLine(String msg) {
         int lineLength = msg.length();

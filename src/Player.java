@@ -16,7 +16,7 @@ public class Player extends Stats {
         setMaxExp(100);
         setLevel(1);
         setSkills(new ArrayList<>(List.of(new Skills("Fist", 3))));
-
+        setCoins(100);
 
         getInventory().addItem("Leather Helmet");
         getInventory().addItem("Leather Helmet");
@@ -37,12 +37,12 @@ public class Player extends Stats {
             getInventory().addItem("Mana Potion");
             System.out.println("Mana Potion Increased To " + getInventory().getOwnItem("Mana Potion").getQuantity());
         }
-
     }
     public void displayFullStats() {
         String tempTitle = "|--------------- " + getName() + " ---------------|";
         displayStats();
         System.out.println("| Attack:\t" + Global.spacerString(24, Integer.toString(getSkills().getFirst().getSkillAttackValue())) + " |");
+        System.out.println("| Coins:\t" + Global.spacerString(24, Integer.toString(getCoins())) + " |");
         System.out.print("Experience ");
         Global.placeLine( 11, tempTitle);
         System.out.println("| Level:\t" + Global.spacerString(24, Integer.toString(getLevel())) + " |");

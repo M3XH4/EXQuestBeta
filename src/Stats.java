@@ -9,6 +9,7 @@ public class Stats {
     private int exp = 0;
     private int maxExp = 0;
     private int level = 0;
+    private int coins = 0;
     private ArrayList<Skills> skills;
     public void displayStats() {
         String nameTitle = "|--------------- " + getName() + " ---------------|";
@@ -24,7 +25,7 @@ public class Stats {
         if (this instanceof Player player) {
             switch (attribute) {
                 case Mana -> {
-                    if (player.getMana() <= player.getMana()) {
+                    if (player.getMana() < player.getMaxMana()) {
                         player.setMana(player.getMana() + amount);
                         if (player.getMana() > player.getMaxMana()) {
                             player.setMana(player.getMaxMana());
@@ -37,7 +38,7 @@ public class Stats {
                     }
                 }
                 case Health -> {
-                    if (player.getHealth() <= player.getMaxHealth()) {
+                    if (player.getHealth() < player.getMaxHealth()) {
                         player.setHealth(player.getHealth() + amount);
                         if (player.getHealth() > player.getMaxHealth()) {
                             player.setHealth(player.getMaxHealth());
@@ -80,8 +81,18 @@ public class Stats {
                 player.setMaxExp((int) (player.getMaxExp() * 1.2));
                 player.setExp(remainingExp);
 
+                setMaxHealth(getMaxHealth() + 10);
+                setMaxMana(getMaxMana() + 10);
+                setHealth(getMaxHealth());
+                setMana(getMaxMana());
+                getSkills().getFirst().setSkillAttackValue(getSkills().getFirst().getSkillAttackValue() + 1);
+
                 System.out.println("Spirit Guide: Warrior " + player.getName() + " You Have Leveled Up To " + player.getLevel() + ". Congratulations!");
                 System.out.println("Spirit Guide: Your Required Experience To Level Up Has Increased To " + player.getMaxExp() + ".");
+                System.out.println("Spirit Guide: Health Has Increased To " + getMaxHealth() + ".");
+                System.out.println("Spirit Guide: Mana Has Increased To " + getMaxMana() + ".");
+                System.out.println("Spirit Guide: Attack Has Increase To " + getSkillAttackValue() + ".");
+                System.out.println("Spirit Guide: By The Heaven's Grace, Your Health And Mana Has Successfully Restored To It's Full.");
             } else {
                 System.out.println("Spirit Guide: Warrior " + player.getName() + " You Do Not Have The Enough Experience To Level Up.");
                 System.out.println("Spirit Guide: You Need " + (player.getMaxExp() - player.getExp()) + " More EXP Points.");
@@ -124,13 +135,25 @@ public class Stats {
             }
         } else if (this instanceof Enemy) {
             System.out.println("Spirit Guide: " + enemy.getName() + " Used " + enemy.getSkillName(attackNumber) + ".");
-            player.setHealth(player.getHealth() - enemy.getSkillAttackValue(attackNumber));
-            System.out.println("Spirit Guide: You Have Taken " + enemy.getSkillAttackValue(attackNumber) + " Damage.");
+            if (enemy.getSkills().get(attackNumber).getSkillType().equals(Global.AttributeType.Attack)) {
+                player.setHealth(player.getHealth() - enemy.getSkillAttackValue(attackNumber));
+                System.out.println("Spirit Guide: You Have Taken " + enemy.getSkillAttackValue(attackNumber) + " Damage.");
 
-            if (player.getHealth() > 20 && player.getHealth() <= player.getMaxHealth()) {
-                System.out.println("Spirit Guide: You Are Down To " + player.getHealth() + " Health.");
-            } else {
-                System.out.println("Spirit Guide: You Have Been Defeated By " + enemy.getName());
+                if (player.getHealth() > 20 && player.getHealth() <= player.getMaxHealth()) {
+                    System.out.println("Spirit Guide: You Are Down To " + player.getHealth() + " Health.");
+                } else {
+                    System.out.println("Spirit Guide: You Have Been Defeated By " + enemy.getName());
+                }
+            } else if (enemy.getSkills().get(attackNumber).getSkillType().equals(Global.AttributeType.Heal)) {
+                enemy.setHealth(enemy.getHealth());
+                player.setHealth(player.getHealth() + enemy.getSkillAttackValue(attackNumber));
+                if (player.getHealth() > player.getMaxHealth()) {
+                    player.setHealth(player.getMaxHealth());
+                    System.out.println("Spirit Guide: " + enemy.getName() + " Is Back To Full.");
+                } else {
+                    System.out.println("Spirit Guide: " + enemy.getName() + " Restored It's Health To" + enemy.getSkillAttackValue(attackNumber) + ".");
+                }
+
             }
         }
     }
@@ -244,5 +267,13 @@ public class Stats {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
     }
 }

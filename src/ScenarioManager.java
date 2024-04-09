@@ -6,16 +6,27 @@ public class ScenarioManager {
     private Battle battle;
     private Market market;
     private Screen screen;
-
+    private Camping camping;
     public ScenarioManager(Player player, Enemy enemy) {
         setScenarios(new ArrayList<>());
         setBattle(new Battle(player, enemy));
         setMarket(new Market(player, enemy));
         setScreen(new Screen(player, enemy));
+        setCamping(new Camping(player, enemy));
 
+        addScenario(getCamping());
         addScenario(getBattle());
         addScenario(getMarket());
     }
+
+    public Camping getCamping() {
+        return camping;
+    }
+
+    public void setCamping(Camping camping) {
+        this.camping = camping;
+    }
+
     public void addScenario(Scenario scenario) {
         getScenarios().add(scenario);
     }

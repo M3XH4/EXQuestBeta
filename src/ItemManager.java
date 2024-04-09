@@ -8,10 +8,14 @@ public class ItemManager {
         getItems().add(new Gloves("Leather Gloves", "", 3, 7));
         getItems().add(new Helmet("Leather Helmet", "", 4, 10));
         getItems().add(new Leggings("Leather Pants", "",5, 16));
+        getItems().add(new Sword("Iron Sword", "", 6, 55));
         getItems().add(new Boots("Leather Boots", "", 3, 7));
         getItems().add(new Torso("Leather Robe", "", 8, 25));
         getItems().add(new Potion("Health Potion", "Adds 10 HP To Your Health", 10, 20, Global.AttributeType.Health));
         getItems().add(new Potion("Mana Potion", "Adds 10 MP To Your Health", 10, 20, Global.AttributeType.Mana));
+        getItems().add(new Knife("Simple Knife", "", 4, 26));
+        getItems().add(new Spear("Iron Spear", "", 14, 70));
+        getItems().add(new Torso("Iron Armor", "", 17, 80));
     }
 
     public ArrayList<Item> getItems() {
@@ -34,6 +38,7 @@ class Inventory extends ItemManager {
     private ArrayList<Gloves> gloves;
     private ArrayList<Leggings> leggings;
     private ArrayList<Boots> boots;
+    private ArrayList<Consumables> consumables;
     private Weapon noWeapon;
     private Armor noArmor;
     private Weapon equippedWeapon = null;
@@ -45,6 +50,7 @@ class Inventory extends ItemManager {
 
     public Inventory() {
         setOwnItems(new ArrayList<>());
+        setConsumables(new ArrayList<>());
         setKnives(new ArrayList<>());
         setSpears(new ArrayList<>());
         setSwords(new ArrayList<>());
@@ -65,11 +71,36 @@ class Inventory extends ItemManager {
         Global.placeLine(headerItems);
         for (Item item : items) {
             if (item.getQuantity() != 0) {
-                String statValue = (item instanceof Weapon) ? ("+" + item.getStatsValue() + " ATK") : ("+" +item.getStatsValue() + " HP");
-                System.out.print("| " + Global.spacerString(29, item.getItemName()) + " | " + Global.spacerString(8, Integer.toString(item.getQuantity())) + " | " + Global.spacerString(20, item.getClass().getSimpleName()) + " | " + Global.spacerString(16, statValue) + " | " + Global.spacerString(43, item.getItemDesc()) + " |\n");
+                if (item instanceof Consumables) {
+                    System.out.print("| " + Global.spacerString(29, item.getItemName()) + " | " + Global.spacerString(8, Integer.toString(item.getQuantity())) + " | " + Global.spacerString(20, item.getClass().getSimpleName()) + " | " + Global.spacerString(16, "") + " | " + Global.spacerString(43, item.getItemDesc()) + " |\n");
+                } else {
+                    String statValue = (item instanceof Weapon) ? ("+" + item.getStatsValue() + " ATK") : ("+" +item.getStatsValue() + " HP");
+                    System.out.print("| " + Global.spacerString(29, item.getItemName()) + " | " + Global.spacerString(8, Integer.toString(item.getQuantity())) + " | " + Global.spacerString(20, item.getClass().getSimpleName()) + " | " + Global.spacerString(16, statValue) + " | " + Global.spacerString(43, item.getItemDesc()) + " |\n");
+                }
             }
             else if (item.getQuantity() == 0) {
                 System.out.println("|\t\t\t\t\t\t\t\t| \t\t   | \t\t\t\t\t  |  \t\t\t\t | \t\t\t\t\t\t\t\t\t\t\t   |");
+            }
+        }
+        if(items.isEmpty()) {
+            System.out.println("|\t\t\t\t\t\t\t\t| \t\t   | \t\t\t\t\t  |  \t\t\t\t | \t\t\t\t\t\t\t\t\t\t\t   |");
+        }
+        Global.placeLine(headerItems);
+        items.clear();
+    }
+    public void displaySellItems(Set<? extends Item> items) {
+        String headerItems = "|              Name             |        Type         |       Stats      |              Description              |      Value     |";
+        Global.placeLine(headerItems);
+        System.out.println(headerItems);
+        Global.placeLine(headerItems);
+        for (Item item : items) {
+            if (item != null) {
+                if (item instanceof Consumables) {
+                    System.out.print("| " + Global.spacerString(29, item.getItemName()) + " | " + Global.spacerString(19, item.getClass().getSimpleName()) + " | " + Global.spacerString(16, "") + " | " + Global.spacerString(37, item.getItemDesc()) + " | " +  Global.spacerString(15, (item.getMarketValue() + " Coins")) + "|\n");
+                } else {
+                    String statValue = (item instanceof Weapon) ? ("+" + item.getStatsValue() + " ATK") : ("+" +item.getStatsValue() + " HP");
+                    System.out.print("| " + Global.spacerString(29, item.getItemName()) + " | " + Global.spacerString(19, item.getClass().getSimpleName()) + " | " + Global.spacerString(16, statValue) + " | " + Global.spacerString(37, item.getItemDesc()) + " | " +  Global.spacerString(15, (item.getMarketValue() + " Coins"))  + "|\n");
+                }
             }
         }
         if(items.isEmpty()) {
@@ -244,6 +275,23 @@ class Inventory extends ItemManager {
 
     public void setOwnItems(ArrayList<Item> ownItems) {
         this.ownItems = ownItems;
+    }
+
+    public ArrayList<Consumables> getConsumables() {
+        for(Item item: getOwnItems()) {
+            if (item instanceof Consumables) {
+                if (item instanceof Potion) {
+                    if (item.getQuantity() != 0) {
+                        consumables.add((Potion) item);
+                    }
+                }
+            }
+        }
+        return consumables;
+    }
+
+    public void setConsumables(ArrayList<Consumables> consumables) {
+        this.consumables = consumables;
     }
 
     public void setNoArmor(Armor noArmor) {

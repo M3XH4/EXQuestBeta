@@ -2,7 +2,6 @@ import java.util.*;
 public class Adventure {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        System.out.println("--------------------------------------------------------".length());
         boolean gameLoop = true;
         String gameTitle = "-------------------------------------------------------       EXQuest       -------------------------------------------------------";
         System.out.println(gameTitle);
@@ -23,10 +22,18 @@ public class Adventure {
             if (gameStart.equalsIgnoreCase("Yes")) {
                 Global.placeLine(gameTitle);
                 System.out.println();
-                ScenarioManager scenarioManager = new ScenarioManager(player, enemy);
                 do {
+                    ScenarioManager scenarioManager = new ScenarioManager(player, enemy);
                     scenarioManager.getScreen().startScreen();
-                    scenarioManager.getBattle().startBattle();
+                    Random random = new Random();
+                    int randomizedEventNumber = random.nextInt(scenarioManager.getScenarios().size());
+                    if (randomizedEventNumber == 1) {
+                        scenarioManager.getBattle().startBattle();
+                    } else if (randomizedEventNumber == 2) {
+                        scenarioManager.getMarket().startMarket();
+                    } else if (randomizedEventNumber == 3) {
+                        scenarioManager.getCamping().startCamp();
+                    }
                 } while(true);
             } else if (gameStart.equalsIgnoreCase("No")) {
                 Global.placeLine(gameTitle);
@@ -47,7 +54,6 @@ public class Adventure {
                 } while (true);
                 Global.placeLine(gameTitle);
             }
-
         } while (gameLoop);
 
     }

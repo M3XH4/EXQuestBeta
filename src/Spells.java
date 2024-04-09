@@ -1,5 +1,3 @@
-
-import java.util.*;
 public class Spells {
     public String spellName;
     private String incantation;
@@ -7,10 +5,10 @@ public class Spells {
     private int manaNeeded;
 
     public Spells(String spellName, String incantation, int spellAttackValue, int manaNeeded) {
-        this.spellName = spellName;
-        this.incantation = incantation;
-        this.spellAttackValue = spellAttackValue;
-        this.manaNeeded = manaNeeded;
+        setSpellName(spellName);
+        setIncantation(incantation);
+        setSpellAttackValue(spellAttackValue);
+        setManaNeeded(manaNeeded);
     }
 
     public void getSpellDescription() {
@@ -48,7 +46,6 @@ public class Spells {
                 System.out.println("Spirit Guide: You Have Been Defeated By " + target.getName());
             }
         }
-
     }
 
     public String getSpellName() {
@@ -86,9 +83,6 @@ public class Spells {
 class Fireball extends Spells {
     public Fireball() {
         super("Fireball", "By the power sent by the inferno and the heat of the cosmos,\nlet the flames roar and reckon. I cast Fireball", 30, 20);
-    }
-    public void setFire() {
-        System.out.println("Set Fire");
     }
 }
 class Thunder extends Spells {

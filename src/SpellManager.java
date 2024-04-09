@@ -59,16 +59,16 @@ class Grimoire extends SpellManager {
         this.ownSpells = ownSpells;
     }
 
-    public void displayOwnSpells(List<? extends Spells> spells) {
-        String headerItems = "|                 Name                |           Damage          |       Mana Needed      |";
+    public void displayOwnSpells() {
+        String headerItems = "|                     Name                     |               Spell Damage                |              Mana Needed              |";
         Global.placeLine(headerItems);
         System.out.println(headerItems);
         Global.placeLine(headerItems);
-        for (int i = 0; i < spells.size(); i++) {
-            System.out.print("| " + Global.spacerString(35, spells.get(i).getSpellName()) + " | " + Global.spacerString(21, spells.get(i).getSpellAttackValue() + " ATK") + " | " + Global.spacerString(16, Integer.toString(spells.get(i).getManaNeeded())) + " |\n");
+        for (Spells spells : getOwnSpells()) {
+            System.out.print("| " + Global.spacerString(44, spells.getSpellName()) + " | " + Global.spacerString(41, spells.getSpellAttackValue() + " ATK") + " | " + Global.spacerString(37, ("-" + spells.getManaNeeded() + " MP")) + " |\n");
         }
-        if(spells.size() == 0) {
-            System.out.println("|\t\t\t\t\t\t\t\t\t  |  \t\t\t\t\t  |  \t\t\t\t | \t\t\t\t\t\t\t\t\t\t\t\t  |");
+        if(getOwnSpells().isEmpty()) {
+            System.out.println("|\t\t\t\t\t\t\t\t\t\t\t   |  \t\t\t\t\t\t\t\t\t\t   | \t\t\t\t\t\t\t\t\t   |");
         }
         Global.placeLine(headerItems);
     }
