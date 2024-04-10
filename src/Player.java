@@ -41,88 +41,27 @@ public class Player extends Stats implements Serializable {
     }
     public void equipEquipment(Item item){
         if(item.getQuantity() != 0) {
-            if (getInventory().getEquippedWeapon().equals(item) ||
-                getInventory().getEquippedHelmet().equals(item) ||
-                getInventory().getEquippedTorso().equals(item) ||
-                getInventory().getEquippedGloves().equals(item) ||
-                getInventory().getEquippedLeggings().equals(item) ||
-                getInventory().getEquippedBoots().equals(item)) {
-                System.out.println("Spirit Guide: Warrior, You Have Already Equipped This Item.");
-            } else {
-                Scanner input = new Scanner(System.in);
-                String choice;
-                if (getInventory().getEquippedWeapon() != null && item.getClass().getSimpleName().equalsIgnoreCase("Weapon")) {
-                    System.out.println("Would You Like To Remove " + getInventory().getEquippedWeapon().getItemName() + "? (Yes/No)");
-                    choice = input.nextLine();
-                    if (choice.equalsIgnoreCase("Yes")) {
-                        removeEquippedItem(getInventory().getEquippedWeapon());
-                    } else {
-                        return;
-                    }
-                } else if (getInventory().getEquippedHelmet() != null && item.getClass().getSimpleName().equalsIgnoreCase("Helmet")) {
-                    System.out.println("Would You Like To Remove " + getInventory().getEquippedHelmet().getItemName() + "? (Yes/No)");
-                    choice = input.nextLine();
-                    if (choice.equalsIgnoreCase("Yes")) {
-                        removeEquippedItem(getInventory().getEquippedHelmet());
-                    } else {
-                        return;
-                    }
-                } else if (getInventory().getEquippedTorso() != null && item.getClass().getSimpleName().equalsIgnoreCase("Torso")) {
-                    System.out.println("Would You Like To Remove " + getInventory().getEquippedTorso().getItemName() + "? (Yes/No)");
-                    choice = input.nextLine();
-                    if (choice.equalsIgnoreCase("Yes")) {
-                        removeEquippedItem(getInventory().getEquippedTorso());
-                    } else {
-                        return;
-                    }
-                } else if (getInventory().getEquippedGloves() != null && item.getClass().getSimpleName().equalsIgnoreCase("Gloves")) {
-                    System.out.println("Would You Like To Remove " + getInventory().getEquippedGloves().getItemName() + "? (Yes/No)");
-                    choice = input.nextLine();
-                    if (choice.equalsIgnoreCase("Yes")) {
-                        removeEquippedItem(getInventory().getEquippedGloves());
-                    } else {
-                        return;
-                    }
-                } else if (getInventory().getEquippedLeggings() != null && item.getClass().getSimpleName().equalsIgnoreCase("Leggings")) {
-                    System.out.println("Would You Like To Remove " + getInventory().getEquippedLeggings().getItemName() + "? (Yes/No)");
-                    choice = input.nextLine();
-                    if (choice.equalsIgnoreCase("Yes")) {
-                        removeEquippedItem(getInventory().getEquippedLeggings());
-                    } else {
-                        return;
-                    }
-                } else if (getInventory().getEquippedBoots() != null && item.getClass().getSimpleName().equalsIgnoreCase("Boots")) {
-                    System.out.println("Would You Like To Remove " + getInventory().getEquippedBoots().getItemName() + "? (Yes/No)");
-                    choice = input.nextLine();
-                    if (choice.equalsIgnoreCase("Yes")) {
-                        removeEquippedItem(getInventory().getEquippedBoots());
-                    } else {
-                        return;
-                    }
-                }
-
-                try {
-                    if (item instanceof Weapon) {
-                        getInventory().setEquippedWeapon((Weapon) item);
-                        getSkills().getFirst().setSkillAttackName(getInventory().getEquippedWeapon().getItemName());
-                        getSkills().getFirst().setSkillAttackValue(getInventory().getEquippedWeapon().getStatsValue());
-                    } else if (item instanceof Armor armor) {
-                        switch (armor) {
-                            case Helmet helmet -> getInventory().setEquippedHelmet(helmet);
-                            case Torso torso -> getInventory().setEquippedTorso(torso);
-                            case Gloves gloves -> getInventory().setEquippedGloves(gloves);
-                            case Leggings leggings -> getInventory().setEquippedLeggings(leggings);
-                            case Boots boots -> getInventory().setEquippedBoots(boots);
-                            default -> {
-                            }
+            try {
+                if (item instanceof Weapon) {
+                    getInventory().setEquippedWeapon((Weapon) item);
+                    getSkills().getFirst().setSkillAttackName(getInventory().getEquippedWeapon().getItemName());
+                    getSkills().getFirst().setSkillAttackValue(getInventory().getEquippedWeapon().getStatsValue());
+                } else if (item instanceof Armor armor) {
+                    switch (armor) {
+                        case Helmet helmet -> getInventory().setEquippedHelmet(helmet);
+                        case Torso torso -> getInventory().setEquippedTorso(torso);
+                        case Gloves gloves -> getInventory().setEquippedGloves(gloves);
+                        case Leggings leggings -> getInventory().setEquippedLeggings(leggings);
+                        case Boots boots -> getInventory().setEquippedBoots(boots);
+                        default -> {
                         }
-                        setHealth(getHealth() + armor.getStatsValue());
-                        setMaxHealth(getMaxHealth() + armor.getStatsValue());
                     }
-                    getInventory().getOwnItem(item.getItemName()).setQuantity(getInventory().getOwnItem(item.getItemName()).getQuantity() - 1);
-                } catch (Exception e) {
-                    System.out.println("Spirit Guide: Item Is Not In Inventory.");
+                    setHealth(getHealth() + armor.getStatsValue());
+                    setMaxHealth(getMaxHealth() + armor.getStatsValue());
                 }
+                getInventory().getOwnItem(item.getItemName()).setQuantity(getInventory().getOwnItem(item.getItemName()).getQuantity() - 1);
+            } catch (Exception e) {
+                System.out.println("Spirit Guide: Item Is Not In Inventory.");
             }
         }
     }

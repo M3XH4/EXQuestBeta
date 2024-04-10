@@ -32,7 +32,8 @@ public class Adventure {
                     player.getInventory().addItem("Leather Helmet", 1);
                     player.getInventory().addItem("Leather Robe", 1);
                     player.getInventory().addItem("Leather Gloves", 1);
-                    player.getInventory().addItem("Leather Pants", 1);
+                    player.getInventory().addItem("Iron Armor", 1);
+                    player.getInventory().addItem("Leather Pants", 2);
                     player.getInventory().addItem("Leather Boots", 1);
                     player.getInventory().addItem("Lesser Health Potion", 10);
                     player.getInventory().addItem("Lesser Mana Potion", 10);

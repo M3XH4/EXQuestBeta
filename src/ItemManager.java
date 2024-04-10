@@ -194,10 +194,7 @@ class Inventory extends ItemManager implements Serializable {
         return searchItem(itemIndex);
     }
     public Item getOwnItem(String itemName) {
-        if (searchOwnItem(itemName).getQuantity() != 0) {
-            return searchOwnItem(itemName);
-        }
-        return null;
+        return searchOwnItem(itemName);
     }
     public Item getOwnItem(int itemIndex) {
         return searchOwnItem(itemIndex);

@@ -101,9 +101,8 @@ public class Interface {
             getPlayer().getInventory().displayOwnItems(items);
             System.out.println("Spirit Guide: Which " + itemType + " Would You Like To Equip Or Would You Like To Choose Another Equipment? (Back)");
             try {
-                Scanner input = new Scanner(System.in);
                 System.out.print("Your Response - ");
-                String choice = input.nextLine();
+                String choice = getInput().nextLine();
                 Item chosenItem = getPlayer().getInventory().searchItem(choice);
 
                 if(chosenItem != null) {
@@ -114,8 +113,18 @@ public class Interface {
                                     if (chosenItem.equals(getPlayer().getInventory().getEquippedWeapon())) {
                                         System.out.println("Spirit Guide: Already Equipped Weapon.");
                                     } else {
+                                        if (getPlayer().getInventory().getEquippedWeapon() != null) {
+                                            System.out.println("Spirit Guide: Do You Want To Remove " + getPlayer().getInventory().getEquippedWeapon().getItemName() + "? (Yes/No)");
+                                            String weaponChoice = getInput().nextLine();
+                                            if (weaponChoice.equalsIgnoreCase("Yes")) {
+                                                getPlayer().removeEquippedItem(getPlayer().getInventory().getEquippedWeapon());
+                                                getPlayer().equipEquipment(chosenItem);
+                                            } else {
+                                                return;
+                                            }
+                                        }
                                         getPlayer().equipEquipment(chosenItem);
-                                        System.out.println(chosenItem.getItemName() + " Equipped Successfully On " + itemType);
+                                        System.out.println("Spirit Guide: " + chosenItem.getItemName() + " Equipped Successfully On " + itemType);
                                     }
                                 } else {
                                     System.out.println("Spirit Guide: You Don't Have That Item In Inventory.");
@@ -131,9 +140,20 @@ public class Interface {
                                     if(chosenItem.equals(getPlayer().getInventory().getEquippedHelmet())) {
                                         System.out.println("Spirit Guide: Already Equipped Helmet.");
                                     } else {
+                                        if (getPlayer().getInventory().getEquippedHelmet() != null) {
+                                            System.out.println("Spirit Guide: Do You Want To Remove " + getPlayer().getInventory().getEquippedHelmet().getItemName() + "? (Yes/No)");
+                                            String helmetChoice = getInput().nextLine();
+                                            if (helmetChoice.equalsIgnoreCase("Yes")) {
+                                                getPlayer().removeEquippedItem(getPlayer().getInventory().getEquippedHelmet());
+                                                getPlayer().equipEquipment(chosenItem);
+                                            } else {
+                                                return;
+                                            }
+                                        }
                                         getPlayer().equipEquipment(chosenItem);
-                                        System.out.println(chosenItem.getItemName() + " Equipped Successfully On " + itemType + ".");
+                                        System.out.println("Spirit Guide: " + chosenItem.getItemName() + " Equipped Successfully On " + itemType + ".");
                                     }
+
                                 } else {
                                     System.out.println("Spirit Guide: You Don't Have That Item In Your Inventory.");
                                 }
@@ -147,13 +167,23 @@ public class Interface {
                                     if(chosenItem.equals(getPlayer().getInventory().getEquippedTorso())) {
                                         System.out.println("Spirit Guide: Already Equipped Torso.");
                                     } else {
+                                        if (getPlayer().getInventory().getEquippedTorso() != null) {
+                                            System.out.println("Spirit Guide: Do You Want To Remove " + getPlayer().getInventory().getEquippedTorso().getItemName() + "? (Yes/No)");
+                                            String armorChoice = getInput().nextLine();
+                                            if (armorChoice.equalsIgnoreCase("Yes")) {
+                                                getPlayer().removeEquippedItem(getPlayer().getInventory().getEquippedTorso());
+                                            } else {
+                                                return;
+                                            }
+                                        }
                                         getPlayer().equipEquipment(chosenItem);
-                                        System.out.println(chosenItem.getItemName() + " Equipped Successfully On " + itemType);
+                                        System.out.println("Spirit Guide: " + chosenItem.getItemName() + " Equipped Successfully On " + itemType + ".");
                                     }
                                 } else {
                                     System.out.println("Spirit Guide: You Don't Have That Item In Inventory.");
                                 }
                             } catch (Exception e) {
+                                System.out.println(e);
                                 System.out.println("Spirit Guide: You Cannot Put This Equipment On In Your Body.");
                             }
                             break;
@@ -163,8 +193,17 @@ public class Interface {
                                     if(chosenItem.equals(getPlayer().getInventory().getEquippedGloves())) {
                                         System.out.println("Spirit Guide: Already Equipped Gloves.");
                                     } else {
+                                        if (getPlayer().getInventory().getEquippedGloves() != null) {
+                                            System.out.println("Spirit Guide: Do You Want To Remove " + getPlayer().getInventory().getEquippedGloves().getItemName() + "? (Yes/No)");
+                                            String gloveChoice = getInput().nextLine();
+                                            if (gloveChoice.equalsIgnoreCase("Yes")) {
+                                                getPlayer().removeEquippedItem(getPlayer().getInventory().getEquippedGloves());
+                                            } else {
+                                                return;
+                                            }
+                                        }
                                         getPlayer().equipEquipment(chosenItem);
-                                        System.out.println(chosenItem.getItemName() + " Equipped Successfully On " + itemType + ".");
+                                        System.out.println("Spirit Guide: " + chosenItem.getItemName() + " Equipped Successfully On " + itemType + ".");
                                     }
                                 } else {
                                     System.out.println("Spirit Guide: You Don't Have That Item In Your Inventory.");
@@ -179,8 +218,17 @@ public class Interface {
                                     if(chosenItem.equals(getPlayer().getInventory().getEquippedLeggings())) {
                                         System.out.println("Spirit Guide: Already Equipped Leggings.");
                                     } else {
+                                        if (getPlayer().getInventory().getEquippedLeggings() != null) {
+                                            System.out.println("Spirit Guide: Do You Want To Remove " + getPlayer().getInventory().getEquippedLeggings().getItemName() + "? (Yes/No)");
+                                            String leggingsChoice = getInput().nextLine();
+                                            if (leggingsChoice.equalsIgnoreCase("Yes")) {
+                                                getPlayer().removeEquippedItem(getPlayer().getInventory().getEquippedLeggings());
+                                            } else {
+                                                return;
+                                            }
+                                        }
                                         getPlayer().equipEquipment(chosenItem);
-                                        System.out.println(chosenItem.getItemName() + " Equipped Successfully On " + itemType + ".");
+                                        System.out.println("Spirit Guide: " + chosenItem.getItemName() + " Equipped Successfully On " + itemType + ".");
                                     }
                                 } else {
                                     System.out.println("Spirit Guide: You Don't Have That Item In Your Inventory.");
@@ -195,8 +243,17 @@ public class Interface {
                                     if(chosenItem.equals(getPlayer().getInventory().getEquippedBoots())) {
                                         System.out.println("Spirit Guide: Already Equipped Boots.");
                                     } else {
+                                        if (getPlayer().getInventory().getEquippedBoots() != null) {
+                                            System.out.println("Spirit Guide: Do You Want To Remove " + getPlayer().getInventory().getEquippedBoots().getItemName() + "? (Yes/No)");
+                                            String bootsChoice = getInput().nextLine();
+                                            if (bootsChoice.equalsIgnoreCase("Yes")) {
+                                                getPlayer().removeEquippedItem(getPlayer().getInventory().getEquippedBoots());
+                                            } else {
+                                                return;
+                                            }
+                                        }
                                         getPlayer().equipEquipment(chosenItem);
-                                        System.out.println(chosenItem.getItemName() + " Equipped Successfully On " + itemType + ".");
+                                        System.out.println("Spirit Guide: " + chosenItem.getItemName() + " Equipped Successfully On " + itemType + ".");
                                     }
                                 } else {
                                     System.out.println("Spirit Guide: You Don't Have That Item In Your Inventory.");
