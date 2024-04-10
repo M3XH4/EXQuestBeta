@@ -3,15 +3,22 @@ public class Adventure {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         boolean gameLoop = true;
+        Player player = FileManager.loadPlayer();
         String gameTitle = "-------------------------------------------------------       EXQuest       -------------------------------------------------------";
         System.out.println(gameTitle);
-        System.out.println("Unknown Person: Good Day Traveller, What Is Your Name? ");
-        System.out.print("Your Name - ");
-        String playerName = input.nextLine();
-        System.out.println("Unknown Person: Welcome To The World Of Gaia, Warrior " + playerName);
-        System.out.println("Unknown Person: I Am A Spirit Guide, I Will Help You Throughout Your Journey In This World.");
+        if (player == null) {
+            System.out.println("Unknown Person: Good Day Traveller, What Is Your Name? ");
+            System.out.print("Your Name - ");
+            String playerName = input.nextLine();
 
-        Player player = new Player(playerName);
+            System.out.println("Unknown Person: Welcome To The World Of Gaia, Warrior " + playerName);
+            System.out.println("Unknown Person: I Am A Spirit Guide, I Will Help You Throughout Your Journey In This World.");
+
+            player = new Player(playerName);
+            FileManager.savePlayer(player);
+        } else {
+            System.out.println("Spirit Guide: Welcome Back, Warrior " + player.getName() + ".");
+        }
 
         do {
             System.out.println("Spirit Guide: Do You Want To Start Your Adventure? (Yes/No)");

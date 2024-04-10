@@ -1,13 +1,17 @@
+import java.io.*;
 import java.util.*;
 
-public class Player extends Stats {
+public class Player extends Stats implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     Inventory inventory;
     Grimoire grimoire;
-    public Player(String name) {
-        setInventory(new Inventory());
-        setGrimoire(new Grimoire());
 
-        setName(name);
+    String playerName;
+    public Player(String name) {
+/*        setInventory(new Inventory());
+        setGrimoire(new Grimoire());*/
+        this.playerName = name;
         setHealth(100);
         setMaxHealth(getHealth());
         setMana(100);
@@ -18,7 +22,7 @@ public class Player extends Stats {
         setSkills(new ArrayList<>(List.of(new Skills("Fist", 3))));
         setCoins(100);
 
-        getInventory().addItem("Leather Helmet");
+        /*getInventory().addItem("Leather Helmet");
         getInventory().addItem("Leather Helmet");
         getInventory().addItem("Leather Helmet");
         getInventory().addItem("Leather Robe");
@@ -36,8 +40,17 @@ public class Player extends Stats {
         for (int i = 0; i < 5; i++) {
             getInventory().addItem("Mana Potion");
             System.out.println("Mana Potion Increased To " + getInventory().getOwnItem("Mana Potion").getQuantity());
-        }
+        }*/
     }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
     public void displayFullStats() {
         String tempTitle = "|--------------- " + getName() + " ---------------|";
         displayStats();
@@ -83,9 +96,6 @@ public class Player extends Stats {
         } catch (Exception e) {
             System.out.println("Spirit Guide: Item Is Not In Inventory.");
         }
-    }
-    public void removeEquipment() {
-
     }
     public void removeWeapon() {
         getSkills().getFirst().setSkillAttackName("Fist");
@@ -148,111 +158,5 @@ public class Player extends Stats {
 
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
-    }
-
-    public static void main(String[] args) {
-
-        Helmet helmet = new Helmet("Iron Helmet", 10, 200);
-        Sword sword = new Sword("Excalibur", 15, 1500);
-        Torso torso = new Torso("Aegis", 30, 2400);
-        Boots boots = new Boots("Hermes' Boots", 12, 1300);
-
-        Player player = new Player("Sean");
-        player.displayStats();
-        System.out.println("AAAAAAAAAAAAAAA");
-        player.displayFullStats();
-        System.out.println("AAAAAAAAAAAAAAA");
-        player.getInventory().addItem("Iron Helmet");
-        player.getInventory().addItem("Excalibur");
-        player.getInventory().addItem("Aegis");
-        player.getInventory().addItem("Hermes' Boots");
-
-        Scanner input = new Scanner(System.in);
-        /*do {
-            System.out.println("Your Inventory:");
-            for (int i = 0; i < player.getInventory().getItems().size(); i++) {
-                if (i == 0) {
-                    System.out.print("| ");
-                }
-                System.out.print(player.getInventory().getItem(i).getItemName());
-                if (i < (player.getInventory().getItems().size() - 1)) {
-                    System.out.print("  |   ");
-                }
-                if (i == (player.getInventory().getItems().size() - 1)) {
-                    System.out.println("    |");
-                    System.out.print("\n");
-                }
-            }
-            System.out.println("Do You Want To Equip Yourself? (Yes/No)");
-            String choice = input.nextLine();
-            if (choice.equalsIgnoreCase("Yes")) {
-                System.out.println("What Part Would You Like To Equip");
-                System.out.println("|   Weapon  |   Head    |   Body    |   Hands  |   Legs |   Foot    |");
-                String partChoice = input.nextLine();
-
-                if (partChoice.equalsIgnoreCase("Weapon")) {
-                    player.getInventory().askEquipItem("Weapon", player.getInventory().getWeapons());
-                } else if (partChoice.equalsIgnoreCase("Head")) {
-                    player.getInventory().askEquipItem("Helmet", player.getInventory().getHelmets());
-                } else if (partChoice.equalsIgnoreCase("Body")) {
-                    player.getInventory().askEquipItem("Torso", player.getInventory().getTorsos());
-                } else if (partChoice.equalsIgnoreCase("Hands")) {
-                    player.getInventory().askEquipItem("Gloves", player.getInventory().getGloves());
-                } else if (partChoice.equalsIgnoreCase("Legs")) {
-                    player.getInventory().askEquipItem("Leggings", player.getInventory().getLeggings());
-                } else if (partChoice.equalsIgnoreCase("Foot")) {
-                    player.getInventory().askEquipItem("Boots", player.getInventory().getBoots());
-                }
-                player.displayFullStats();
-                break;
-            } else if (choice.equalsIgnoreCase("No")) {
-
-            } else {
-                System.out.println("I don't understand Your response");
-            }
-        } while (true);
-        do {
-            System.out.println("Your Inventory:");
-            for (int i = 0; i < player.getInventory().getItems().size(); i++) {
-                if (i == 0) {
-                    System.out.print("| ");
-                }
-                System.out.print(player.getInventory().getItem(i).getItemName());
-                if (i < (player.getInventory().getItems().size() - 1)) {
-                    System.out.print("  |   ");
-                }
-                if (i == (player.getInventory().getItems().size() - 1)) {
-                    System.out.println("    |");
-                    System.out.print("\n");
-                }
-            }
-            System.out.println("Do You Want To Equip Yourself? (Yes/No)");
-            String choice = input.nextLine();
-            if (choice.equalsIgnoreCase("Yes")) {
-                System.out.println("What Part Would You Like To Equip");
-                System.out.println("|   Weapon  |   Head    |   Body    |   Hands  |   Legs |   Foot    |");
-                String partChoice = input.nextLine();
-
-                if (partChoice.equalsIgnoreCase("Weapon")) {
-                    player.getInventory().askEquipItem("Weapon", player.getInventory().getWeapons());
-                } else if (partChoice.equalsIgnoreCase("Head")) {
-                    player.getInventory().askEquipItem("Helmet", player.getInventory().getHelmets());
-                } else if (partChoice.equalsIgnoreCase("Body")) {
-                    player.getInventory().askEquipItem("Torso", player.getInventory().getTorsos());
-                } else if (partChoice.equalsIgnoreCase("Hands")) {
-                    player.getInventory().askEquipItem("Gloves", player.getInventory().getGloves());
-                } else if (partChoice.equalsIgnoreCase("Legs")) {
-                    player.getInventory().askEquipItem("Leggings", player.getInventory().getLeggings());
-                } else if (partChoice.equalsIgnoreCase("Foot")) {
-                    player.getInventory().askEquipItem("Boots", player.getInventory().getBoots());
-                }
-                player.displayFullStats();
-                break;
-            } else if (choice.equalsIgnoreCase("No")) {
-
-            } else {
-                System.out.println("I don't understand Your response");
-            }
-        } while (true);*/
     }
 }
