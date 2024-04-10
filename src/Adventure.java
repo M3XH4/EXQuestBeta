@@ -5,6 +5,7 @@ public class Adventure {
         boolean gameLoop = true;
         Player player = FileManager.loadPlayer();
         String gameTitle = "-------------------------------------------------------       EXQuest       -------------------------------------------------------";
+
         System.out.println(gameTitle);
         if (player == null) {
             System.out.println("Unknown Person: Good Day Traveller, What Is Your Name? ");

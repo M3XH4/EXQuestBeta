@@ -10,7 +10,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://D:/Download/AceOfDiamond/mysql-connector-j-8.3.0/mysql-connector-j-8.3.0/mysql-connector-j-8.3.0.jar!/" />
+          <root url="jar://$USER_HOME$/Downloads/jlayer1.0.1/JLayer1.0.1/jl1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
