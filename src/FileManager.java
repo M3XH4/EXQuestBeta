@@ -1,12 +1,13 @@
 import java.io.*;
 import java.nio.file.*;
-import java.util.*;
+import java.util.ArrayList;
+
 public class FileManager {
     public static final String filePathPlayerData = getSourcePath() + "\\files\\playerData.dat";
 
     private static String getSourcePath() {
         Path currentPath = Paths.get("");
-        return currentPath.toAbsolutePath().toString() + "\\src";
+        return currentPath.toAbsolutePath() + "\\src";
     }
     public static void savePlayer(Player player) {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePathPlayerData))) {
@@ -26,7 +27,9 @@ public class FileManager {
         }
         return tempPlayer;
     }
-    public static void updatePlayer(String name, int maxHealth, int maxMana, int coins, int level, int exp, int maxExp) {
+    public static void updatePlayer(String name, int maxHealth, int maxMana, int coins,
+                                    int level, int exp, int maxExp, ArrayList<Item> inventory, Weapon weapon, Armor helmet, Armor torso,
+                                    Armor gloves, Armor leggings, Armor boots) {
         Player tempPlayer = loadPlayer();
         if (tempPlayer.getName().equalsIgnoreCase(name)) {
             tempPlayer.setMaxHealth(maxHealth);
@@ -37,6 +40,13 @@ public class FileManager {
             tempPlayer.setLevel(level);
             tempPlayer.setExp(exp);
             tempPlayer.setMaxExp(maxExp);
+            tempPlayer.getInventory().setOwnItems(inventory);
+            tempPlayer.equipEquipment(weapon);
+            tempPlayer.equipEquipment(helmet);
+            tempPlayer.equipEquipment(torso);
+            tempPlayer.equipEquipment(gloves);
+            tempPlayer.equipEquipment(leggings);
+            tempPlayer.equipEquipment(boots);
             savePlayer(tempPlayer);
         } else {
             System.err.println("User Not Found.");

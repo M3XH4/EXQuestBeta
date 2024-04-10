@@ -51,13 +51,6 @@ class Grimoire extends SpellManager implements Serializable {
         }
         return null;
     }
-    public Spells searchSpell(int spellIndex) {
-        try {
-            return getSpells().get(spellIndex);
-        } catch (IndexOutOfBoundsException e) {
-            return null;
-        }
-    }
     public ArrayList<Spells> getOwnSpells() {
         return ownSpells;
     }

@@ -83,11 +83,9 @@ class Camping extends Scenario {
 }
 class Market extends Scenario {
     private Set<Item> sellItems;
-    private Set<Item> sellTempItems;
     public Market(Player player, Enemy enemy) {
         super(player, enemy);
         setSellItems(new HashSet<>());
-        setSellTempItems(new HashSet<>());
         for (int i = 0; i < 10; i++) {
             Item tempItem = getPlayer().getInventory().getItem(i);
             sellItems.add(tempItem);
@@ -127,34 +125,28 @@ class Market extends Scenario {
         Set<Item> tempSellItems = new HashSet<>();
         for (Item item: sellItems) {
             if (item instanceof Weapon) {
-                if (item instanceof Knife knife) {
-                    tempSellItems.add(new Knife(knife));
-                } else if (item instanceof Sword sword) {
-                    tempSellItems.add(new Sword(sword));
-                } else if (item instanceof Spear spear) {
-                    tempSellItems.add(new Spear(spear));
+                switch (item) {
+                    case Knife knife -> tempSellItems.add(new Knife(knife));
+                    case Sword sword -> tempSellItems.add(new Sword(sword));
+                    case Spear spear -> tempSellItems.add(new Spear(spear));
+                    default -> {
+                    }
                 }
             } else if (item instanceof Armor) {
-                if (item instanceof Helmet helmet) {
-                    tempSellItems.add(new Helmet(helmet));
-                } else if (item instanceof Torso torso) {
-                    tempSellItems.add(new Torso(torso));
-                } else if (item instanceof Gloves gloves) {
-                    tempSellItems.add(new Gloves(gloves));
-                } else if (item instanceof Leggings leggings) {
-                    tempSellItems.add(new Leggings(leggings));
-                } else if (item instanceof Boots boots) {
-                    tempSellItems.add(new Boots(boots));
+                switch (item) {
+                    case Helmet helmet -> tempSellItems.add(new Helmet(helmet));
+                    case Torso torso -> tempSellItems.add(new Torso(torso));
+                    case Gloves gloves -> tempSellItems.add(new Gloves(gloves));
+                    case Leggings leggings -> tempSellItems.add(new Leggings(leggings));
+                    case Boots boots -> tempSellItems.add(new Boots(boots));
+                    default -> {
+                    }
                 }
             } else if (item instanceof Potion potion) {
                 tempSellItems.add(new Potion(potion));
             }
         }
         return tempSellItems;
-    }
-
-    public void setSellTempItems(Set<Item> sellTempItems) {
-        this.sellTempItems = sellTempItems;
     }
 }
 class Battle extends Scenario {

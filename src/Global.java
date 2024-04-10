@@ -25,7 +25,7 @@ public class Global {
             }
         }
     }
-    public static void placeLine(String msg, int plus) {
+    /*public static void placeLine(String msg, int plus) {
         int lineLength = msg.length() + plus;
         for (int i = 0; i < lineLength; i++) {
             System.out.print("-");
@@ -33,7 +33,7 @@ public class Global {
                 System.out.print("\n");
             }
         }
-    }
+    }*/
     public static void pause() {
         Scanner input = new Scanner(System.in);
         System.out.print("Press Enter To Continue...");

@@ -20,7 +20,7 @@ public class Player extends Stats implements Serializable {
         setSkills(new ArrayList<>(List.of(new Skills("Fist", 3))));
         setCoins(100);
 
-        /*getInventory().addItem("Leather Helmet");
+        getInventory().addItem("Leather Helmet");
         getInventory().addItem("Leather Helmet");
         getInventory().addItem("Leather Helmet");
         getInventory().addItem("Leather Robe");
@@ -32,13 +32,13 @@ public class Player extends Stats implements Serializable {
 
         for (int i = 0; i < 5; i++) {
             getInventory().addItem("Health Potion");
-            System.out.println("Health Potion Increased To " +  getInventory().getOwnItem("Health Potion").getQuantity());
+            //System.out.println("Health Potion Increased To " +  getInventory().getOwnItem("Health Potion").getQuantity());
         }
 
         for (int i = 0; i < 5; i++) {
             getInventory().addItem("Mana Potion");
-            System.out.println("Mana Potion Increased To " + getInventory().getOwnItem("Mana Potion").getQuantity());
-        }*/
+            //System.out.println("Mana Potion Increased To " + getInventory().getOwnItem("Mana Potion").getQuantity());
+        }
     }
     public void displayFullStats() {
         String nameTitle = "|--------------- " + getName() + " ---------------|";
@@ -65,18 +65,15 @@ public class Player extends Stats implements Serializable {
                 getInventory().setEquippedWeapon((Weapon) item);
                 getSkills().getFirst().setSkillAttackName(getInventory().getEquippedWeapon().getItemName());
                 getSkills().getFirst().setSkillAttackValue(getInventory().getEquippedWeapon().getStatsValue());
-            } else if (item instanceof Armor) {
-                Armor armor = (Armor) item;
-                if (armor instanceof Helmet) {
-                    getInventory().setEquippedHelmet((Helmet) armor);
-                } else if (armor instanceof Torso) {
-                    getInventory().setEquippedTorso((Torso) armor);
-                } else if (armor instanceof Gloves) {
-                    getInventory().setEquippedGloves((Gloves) armor);
-                } else if (armor instanceof Leggings) {
-                    getInventory().setEquippedLeggings((Leggings) armor);
-                } else if (armor instanceof Boots) {
-                    getInventory().setEquippedBoots((Boots) armor);
+            } else if (item instanceof Armor armor) {
+                switch (armor) {
+                    case Helmet helmet -> getInventory().setEquippedHelmet(helmet);
+                    case Torso torso -> getInventory().setEquippedTorso(torso);
+                    case Gloves gloves -> getInventory().setEquippedGloves(gloves);
+                    case Leggings leggings -> getInventory().setEquippedLeggings(leggings);
+                    case Boots boots -> getInventory().setEquippedBoots(boots);
+                    default -> {
+                    }
                 }
                 setHealth(getHealth() + armor.getStatsValue());
                 setMaxHealth(getMaxHealth() + armor.getStatsValue());
@@ -114,7 +111,7 @@ public class Player extends Stats implements Serializable {
             setHealth(getMaxHealth());
         }
         getInventory().getOwnItem(getInventory().getEquippedGloves().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedGloves().getItemName()).getQuantity() + 1);
-        getInventory().setEquippedGloves(null);;
+        getInventory().setEquippedGloves(null);
     }
     public void removeLeggings() {
         setMaxHealth(getMaxHealth() - getInventory().getEquippedLeggings().getStatsValue());

@@ -6,6 +6,7 @@ public class Interface {
     private Random random;
     private Scanner input;
     private Inventory inventory;
+    private MarketInventory marketInventory;
     boolean commandLoop = true;
     boolean spellLoop = true;
     boolean spellSelectLoop = true;
@@ -21,6 +22,7 @@ public class Interface {
         setInput(new Scanner(System.in));
         setRandom(new Random());
         setInventory(new Inventory());
+        setMarketInventory(new MarketInventory());
 
         setPlayer(player);
         setEnemy(enemy);
@@ -47,6 +49,11 @@ public class Interface {
                 System.out.println("Warrior " + getPlayer().getName() + " Is Roaming Around...");
                 playerScreenLoop = false;
                 Global.pause();
+            } else if (playerCommand.equalsIgnoreCase("Save")) {
+                FileManager.updatePlayer(getPlayer().getName(), getPlayer().getMaxHealth(), getPlayer().getMaxMana(), getPlayer().getCoins(),
+                        getPlayer().getLevel(), getPlayer().getExp(), getPlayer().getMaxExp(), getPlayer().getInventory().getOwnItems(),
+                        getPlayer().getInventory().getEquippedWeapon(), getPlayer().getInventory().getEquippedHelmet(), getPlayer().getInventory().getEquippedTorso(),
+                        getPlayer().getInventory().getEquippedGloves(), getPlayer().getInventory().getEquippedLeggings(), getPlayer().getInventory().getEquippedBoots());
             } else {
                 confuseMessage(2);
             }
@@ -78,12 +85,12 @@ public class Interface {
             System.out.print("Your Response - ");
             String equipCommand = getInput().nextLine();
             switch (equipCommand.toLowerCase()) {
-                case "weapon" -> askEquipItem("Weapon", getPlayer().getInventory().getWeapons());
-                case "helmet" -> askEquipItem("Helmet", getPlayer().getInventory().getHelmets());
-                case "armor" -> askEquipItem("Armor", getPlayer().getInventory().getTorsos());
-                case "gloves" -> askEquipItem("Gloves", getPlayer().getInventory().getGloves());
-                case "leggings" -> askEquipItem("Leggings", getPlayer().getInventory().getLeggings());
-                case "boots" -> askEquipItem("Boots", getPlayer().getInventory().getBoots());
+                case "weapon" -> askEquipItem("Weapon", getPlayer().getInventory().getItemOfType(Weapon.class));
+                case "helmet" -> askEquipItem("Helmet", getPlayer().getInventory().getItemOfType(Helmet.class));
+                case "armor" -> askEquipItem("Armor", getPlayer().getInventory().getItemOfType(Torso.class));
+                case "gloves" -> askEquipItem("Gloves", getPlayer().getInventory().getItemOfType(Gloves.class));
+                case "leggings" -> askEquipItem("Leggings", getPlayer().getInventory().getItemOfType(Leggings.class));
+                case "boots" -> askEquipItem("Boots", getPlayer().getInventory().getItemOfType(Boots.class));
                 case "back" -> equipScreenLoop = false;
                 default -> confuseMessage(2);
             }
@@ -243,7 +250,7 @@ public class Interface {
     public void consumeConsumablesDisplay() {
         do {
             consumableSelectLoop = true;
-            getPlayer().getInventory().displayOwnItems(getPlayer().getInventory().getConsumables());
+            getPlayer().getInventory().displayOwnItems(getPlayer().getInventory().getItemOfType(Consumables.class));
             System.out.println("Spirit Guide: Which Consumables Would You Like To Consume Or Would You Like To Go Back? (Back)");
             try {
                 Scanner input = new Scanner(System.in);
@@ -281,7 +288,7 @@ public class Interface {
         Global.pause();
         do {
             Set<? extends Item> sellTempItems = Market.getSellTempItems(sellItems);
-            getInventory().displaySellItems(sellTempItems);
+            getMarketInventory().displaySellItems(sellTempItems);
             System.out.println("Travelling Merchant: Would You Like To Buy Or Sell Items: (Buy/Sell/Leave)");
             System.out.print("Your Response - ");
             String marketSelect = getInput().nextLine();
@@ -321,7 +328,7 @@ public class Interface {
                                         buyTurn++;
                                     } else if (buyingSelect.equalsIgnoreCase("No")) {
                                         buyingSelectLoop = false;
-                                        getInventory().displaySellItems(sellTempItems);
+                                        getMarketInventory().displaySellItems(sellTempItems);
                                     } else {
                                         confuseMessage(2);
                                     }
@@ -576,5 +583,13 @@ public class Interface {
 
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
+    }
+
+    public MarketInventory getMarketInventory() {
+        return marketInventory;
+    }
+
+    public void setMarketInventory(MarketInventory marketInventory) {
+        this.marketInventory = marketInventory;
     }
 }
