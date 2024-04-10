@@ -14,8 +14,8 @@ public class ItemManager implements Serializable {
         getItems().add(new Sword("Iron Sword", "", 6, 55));
         getItems().add(new Boots("Leather Boots", "", 3, 7));
         getItems().add(new Torso("Leather Robe", "", 8, 25));
-        getItems().add(new Potion("Health Potion", "Adds 10 HP To Your Health", 10, 20, Global.AttributeType.Health));
-        getItems().add(new Potion("Mana Potion", "Adds 10 MP To Your Health", 10, 20, Global.AttributeType.Mana));
+        getItems().add(new Potion("Lesser Health Potion", "Adds 10 HP To Your Health", 10, 15, Global.AttributeType.Health));
+        getItems().add(new Potion("Lesser Mana Potion", "Adds 10 MP To Your Health", 10, 15, Global.AttributeType.Mana));
         getItems().add(new Knife("Simple Knife", "", 4, 26));
         getItems().add(new Spear("Iron Spear", "", 14, 70));
         getItems().add(new Torso("Iron Armor", "", 17, 80));
@@ -104,8 +104,6 @@ class Inventory extends ItemManager implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private ArrayList<Item> ownItems;
-    private Weapon noWeapon;
-    private Armor noArmor;
     private Weapon equippedWeapon = null;
     private Helmet equippedHelmet = null;
     private Torso equippedTorso = null;
@@ -116,8 +114,6 @@ class Inventory extends ItemManager implements Serializable {
     public Inventory() {
         setOwnItems(new ArrayList<>());
 
-        setNoWeapon(new NoItemWeapon());
-        setNoArmor(new NoItemArmor());
     }
     public void displayOwnItems(List<? extends Item> items) {
         String headerItems = "|              Name             | Quantity |         Type         |       Stats      |                  Description                |";
@@ -176,16 +172,20 @@ class Inventory extends ItemManager implements Serializable {
         }
         return tempItems;
     }
-    public void addItem(String itemName) {
+    public void addItem(String itemName, int quantity) {
         ArrayList<String> itemNames = new ArrayList<>();
         for (int i = 0; i < getOwnItems().size(); i++) {
             itemNames.add(getOwnItems().get(i).getItemName());
         }
-        if (!(itemNames.contains(itemName))) {
-            getOwnItems().add(searchItem(itemName));
+        if(!(itemNames.contains(itemName))) {
+            Item tempItem = searchItem(itemName);
+            tempItem.setQuantity(quantity);
+            getOwnItems().add(tempItem);
         } else {
-            getOwnItem(itemName).setQuantity(getOwnItem(itemName).getQuantity() + 1);
+            Item tempItem = getOwnItem(itemName);
+            tempItem.setQuantity(tempItem.getQuantity() + quantity);
         }
+        System.out.println("Spirit Guide: Obtained " + itemName + " x" + quantity);
     }
     public Item getItem(String itemName) {
         return searchItem(itemName);
@@ -235,9 +235,8 @@ class Inventory extends ItemManager implements Serializable {
     public Weapon getEquippedWeapon() {
         if (this.equippedWeapon != null) {
             return this.equippedWeapon;
-        } else {
-            return getNoWeapon();
         }
+        return null;
     }
     public void setEquippedWeapon(Weapon equippedWeapon) {
         this.equippedWeapon = equippedWeapon;
@@ -245,9 +244,8 @@ class Inventory extends ItemManager implements Serializable {
     public Armor getEquippedHelmet() {
         if (this.equippedHelmet != null) {
             return this.equippedHelmet;
-        } else {
-            return getNoArmor();
         }
+        return null;
     }
     public void setEquippedHelmet(Helmet equippedHelmet) {
         this.equippedHelmet = equippedHelmet;
@@ -255,9 +253,8 @@ class Inventory extends ItemManager implements Serializable {
     public Armor getEquippedTorso() {
         if (this.equippedTorso != null) {
             return this.equippedTorso;
-        } else {
-            return getNoArmor();
         }
+        return null;
     }
     public void setEquippedTorso(Torso equippedTorso) {
         this.equippedTorso = equippedTorso;
@@ -265,9 +262,8 @@ class Inventory extends ItemManager implements Serializable {
     public Armor getEquippedGloves() {
         if (this.equippedGloves != null) {
             return this.equippedGloves;
-        } else {
-            return getNoArmor();
         }
+        return null;
     }
     public void setEquippedGloves(Gloves equippedGloves) {
         this.equippedGloves = equippedGloves;
@@ -275,9 +271,8 @@ class Inventory extends ItemManager implements Serializable {
     public Armor getEquippedLeggings() {
         if (this.equippedLeggings != null) {
             return this.equippedLeggings;
-        } else {
-            return getNoArmor();
         }
+        return null;
     }
     public void setEquippedLeggings(Leggings equippedLeggings) {
         this.equippedLeggings = equippedLeggings;
@@ -285,24 +280,11 @@ class Inventory extends ItemManager implements Serializable {
     public Armor getEquippedBoots() {
         if (this.equippedBoots != null) {
             return this.equippedBoots;
-        } else {
-            return getNoArmor();
         }
+        return null;
     }
     public void setEquippedBoots(Boots equippedBoots) {
         this.equippedBoots = equippedBoots;
-    }
-
-    public Weapon getNoWeapon() {
-        return noWeapon;
-    }
-
-    public void setNoWeapon(Weapon noWeapon) {
-        this.noWeapon = noWeapon;
-    }
-
-    public Armor getNoArmor() {
-        return noArmor;
     }
 
     public ArrayList<Item> getOwnItems() {
@@ -311,10 +293,6 @@ class Inventory extends ItemManager implements Serializable {
 
     public void setOwnItems(ArrayList<Item> ownItems) {
         this.ownItems = ownItems;
-    }
-
-    public void setNoArmor(Armor noArmor) {
-        this.noArmor = noArmor;
     }
 
     public <T extends Item> ArrayList<T> getItemOfType(Class<T> itemType) {

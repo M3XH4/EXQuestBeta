@@ -130,14 +130,6 @@ class Weapon extends Item implements Serializable {
         super(item);
     }
 }
-class NoItemWeapon extends Weapon implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
-    public NoItemWeapon() {
-        super("None", null, 0, 0);
-    }
-}
 class Sword extends Weapon implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -186,14 +178,6 @@ class Armor extends Item implements Serializable {
 
     public Armor(Armor item) {
         super(item);
-    }
-}
-class NoItemArmor extends Armor implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
-    public NoItemArmor() {
-        super("None", null, 0, 0);
     }
 }
 class Helmet extends Armor implements Serializable {

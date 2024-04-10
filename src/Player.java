@@ -31,29 +31,76 @@ public class Player extends Stats implements Serializable {
         System.out.println("| Exp:\t\t" + Global.spacerString(nameTitle.length() - 14, getExp() + "/" + getMaxExp()) + " |");
         System.out.print("Equipment ");
         Global.placeLine( 10, nameTitle);
-        System.out.println("| Weapon:\t" + Global.spacerString(nameTitle.length() - 14, getInventory().getEquippedWeapon().getItemName()) + " |");
-        System.out.println("| Helmet:\t" + Global.spacerString(nameTitle.length() - 14, getInventory().getEquippedHelmet().getItemName()) + " |");
-        System.out.println("| Armor:\t" + Global.spacerString(nameTitle.length() - 14, getInventory().getEquippedTorso().getItemName()) + " |");
-        System.out.println("| Gloves:\t" + Global.spacerString(nameTitle.length() - 14, getInventory().getEquippedGloves().getItemName()) + " |");
-        System.out.println("| Leggings:\t" + Global.spacerString(nameTitle.length() - 14, getInventory().getEquippedLeggings().getItemName()) + " |");
-        System.out.println("| Boots:\t" + Global.spacerString(nameTitle.length() - 14, getInventory().getEquippedBoots().getItemName()) + " |");
+        System.out.println("| Weapon:\t" + Global.spacerString(nameTitle.length() - 14, (getInventory().getEquippedWeapon() != null) ? getInventory().getEquippedWeapon().getItemName() : "None") + " |");
+        System.out.println("| Helmet:\t" + Global.spacerString(nameTitle.length() - 14, (getInventory().getEquippedHelmet() != null) ? getInventory().getEquippedHelmet().getItemName() : "None") + " |");
+        System.out.println("| Armor:\t" + Global.spacerString(nameTitle.length() - 14, (getInventory().getEquippedTorso() != null) ? getInventory().getEquippedTorso().getItemName() : "None") + " |");
+        System.out.println("| Gloves:\t" + Global.spacerString(nameTitle.length() - 14, (getInventory().getEquippedGloves() != null) ? getInventory().getEquippedGloves().getItemName() : "None") + " |");
+        System.out.println("| Leggings:\t" + Global.spacerString(nameTitle.length() - 14, (getInventory().getEquippedLeggings() != null) ? getInventory().getEquippedLeggings().getItemName() : "None") + " |");
+        System.out.println("| Boots:\t" + Global.spacerString(nameTitle.length() - 14, (getInventory().getEquippedBoots() != null) ? getInventory().getEquippedBoots().getItemName() : "None") + " |");
         Global.placeLine(nameTitle);
     }
     public void equipEquipment(Item item){
         if(item.getQuantity() != 0) {
-            if (getInventory().getEquippedWeapon() != item &&
-                getInventory().getEquippedHelmet() != item &&
-                getInventory().getEquippedTorso() != item &&
-                getInventory().getEquippedGloves() != item &&
-                getInventory().getEquippedLeggings() != item &&
-                getInventory().getEquippedBoots() != item) {
-
-            } else if (getInventory().getEquippedWeapon().equals(item) ||
+            if (getInventory().getEquippedWeapon().equals(item) ||
                 getInventory().getEquippedHelmet().equals(item) ||
                 getInventory().getEquippedTorso().equals(item) ||
                 getInventory().getEquippedGloves().equals(item) ||
                 getInventory().getEquippedLeggings().equals(item) ||
                 getInventory().getEquippedBoots().equals(item)) {
+                System.out.println("Spirit Guide: Warrior, You Have Already Equipped This Item.");
+            } else {
+                Scanner input = new Scanner(System.in);
+                String choice;
+                if (getInventory().getEquippedWeapon() != null && item.getClass().getSimpleName().equalsIgnoreCase("Weapon")) {
+                    System.out.println("Would You Like To Remove " + getInventory().getEquippedWeapon().getItemName() + "? (Yes/No)");
+                    choice = input.nextLine();
+                    if (choice.equalsIgnoreCase("Yes")) {
+                        removeEquippedItem(getInventory().getEquippedWeapon());
+                    } else {
+                        return;
+                    }
+                } else if (getInventory().getEquippedHelmet() != null && item.getClass().getSimpleName().equalsIgnoreCase("Helmet")) {
+                    System.out.println("Would You Like To Remove " + getInventory().getEquippedHelmet().getItemName() + "? (Yes/No)");
+                    choice = input.nextLine();
+                    if (choice.equalsIgnoreCase("Yes")) {
+                        removeEquippedItem(getInventory().getEquippedHelmet());
+                    } else {
+                        return;
+                    }
+                } else if (getInventory().getEquippedTorso() != null && item.getClass().getSimpleName().equalsIgnoreCase("Torso")) {
+                    System.out.println("Would You Like To Remove " + getInventory().getEquippedTorso().getItemName() + "? (Yes/No)");
+                    choice = input.nextLine();
+                    if (choice.equalsIgnoreCase("Yes")) {
+                        removeEquippedItem(getInventory().getEquippedTorso());
+                    } else {
+                        return;
+                    }
+                } else if (getInventory().getEquippedGloves() != null && item.getClass().getSimpleName().equalsIgnoreCase("Gloves")) {
+                    System.out.println("Would You Like To Remove " + getInventory().getEquippedGloves().getItemName() + "? (Yes/No)");
+                    choice = input.nextLine();
+                    if (choice.equalsIgnoreCase("Yes")) {
+                        removeEquippedItem(getInventory().getEquippedGloves());
+                    } else {
+                        return;
+                    }
+                } else if (getInventory().getEquippedLeggings() != null && item.getClass().getSimpleName().equalsIgnoreCase("Leggings")) {
+                    System.out.println("Would You Like To Remove " + getInventory().getEquippedLeggings().getItemName() + "? (Yes/No)");
+                    choice = input.nextLine();
+                    if (choice.equalsIgnoreCase("Yes")) {
+                        removeEquippedItem(getInventory().getEquippedLeggings());
+                    } else {
+                        return;
+                    }
+                } else if (getInventory().getEquippedBoots() != null && item.getClass().getSimpleName().equalsIgnoreCase("Boots")) {
+                    System.out.println("Would You Like To Remove " + getInventory().getEquippedBoots().getItemName() + "? (Yes/No)");
+                    choice = input.nextLine();
+                    if (choice.equalsIgnoreCase("Yes")) {
+                        removeEquippedItem(getInventory().getEquippedBoots());
+                    } else {
+                        return;
+                    }
+                }
+
                 try {
                     if (item instanceof Weapon) {
                         getInventory().setEquippedWeapon((Weapon) item);
@@ -76,8 +123,6 @@ public class Player extends Stats implements Serializable {
                 } catch (Exception e) {
                     System.out.println("Spirit Guide: Item Is Not In Inventory.");
                 }
-            } else {
-                System.out.println("Spirit Guide: Warrior, You Have Already Equipped This Item.");
             }
         }
     }
@@ -103,7 +148,7 @@ public class Player extends Stats implements Serializable {
                 default -> {}
             }
         }
-        System.out.println("");
+        System.out.println("Spirit Guide: You Have Removed The " + equippedItem.getItemName() + ".");
     }
     public Grimoire getGrimoire() {
         return grimoire;
