@@ -1,6 +1,11 @@
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
-public class SpellManager {
+public class SpellManager implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private ArrayList<Spells> spells;
 
     public SpellManager() {
@@ -19,7 +24,9 @@ public class SpellManager {
         this.spells = spells;
     }
 }
-class Grimoire extends SpellManager {
+class Grimoire extends SpellManager implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private ArrayList<Spells> ownSpells;
 
     public Grimoire() {

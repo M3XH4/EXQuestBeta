@@ -1,4 +1,8 @@
-public class Skills {
+import java.io.*;
+
+public class Skills implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String skillAttackName;
     private int skillAttackValue;
     private Global.AttributeType skillType;

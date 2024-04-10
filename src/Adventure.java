@@ -13,16 +13,17 @@ public class Adventure {
 
             System.out.println("Unknown Person: Welcome To The World Of Gaia, Warrior " + playerName);
             System.out.println("Unknown Person: I Am A Spirit Guide, I Will Help You Throughout Your Journey In This World.");
+            System.out.println("Spirit Guide: Do You Want To Start Your Adventure? (Yes/No)");
+            System.out.println("Spirit Guide: If You Answer No, I Can Use A Spell To Help You Go Back To Your World.");
 
             player = new Player(playerName);
             FileManager.savePlayer(player);
         } else {
             System.out.println("Spirit Guide: Welcome Back, Warrior " + player.getName() + ".");
+            System.out.println("Spirit Guide: Do You Want To Continue Your Adventure? (Yes)");
         }
 
         do {
-            System.out.println("Spirit Guide: Do You Want To Start Your Adventure? (Yes/No)");
-            System.out.println("Spirit Guide: If You Answer No, I Can Use A Spell To Help You Go Back To Your World.");
             System.out.print("Your Response - ");
             String gameStart = input.nextLine();
             Enemy enemy = new Enemy();

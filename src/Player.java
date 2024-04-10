@@ -6,12 +6,10 @@ public class Player extends Stats implements Serializable {
     private static final long serialVersionUID = 1L;
     Inventory inventory;
     Grimoire grimoire;
-
-    String playerName;
     public Player(String name) {
-/*        setInventory(new Inventory());
-        setGrimoire(new Grimoire());*/
-        this.playerName = name;
+        setInventory(new Inventory());
+        setGrimoire(new Grimoire());
+        setName(name);
         setHealth(100);
         setMaxHealth(getHealth());
         setMana(100);
@@ -42,33 +40,24 @@ public class Player extends Stats implements Serializable {
             System.out.println("Mana Potion Increased To " + getInventory().getOwnItem("Mana Potion").getQuantity());
         }*/
     }
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
     public void displayFullStats() {
-        String tempTitle = "|--------------- " + getName() + " ---------------|";
+        String nameTitle = "|--------------- " + getName() + " ---------------|";
         displayStats();
-        System.out.println("| Attack:\t" + Global.spacerString(24, Integer.toString(getSkills().getFirst().getSkillAttackValue())) + " |");
-        System.out.println("| Coins:\t" + Global.spacerString(24, Integer.toString(getCoins())) + " |");
+        System.out.println("| Attack:\t" + Global.spacerString(nameTitle.length() - 14, Integer.toString(getSkills().getFirst().getSkillAttackValue())) + " |");
+        System.out.println("| Coins:\t" + Global.spacerString(nameTitle.length() - 14, Integer.toString(getCoins())) + " |");
         System.out.print("Experience ");
-        Global.placeLine( 11, tempTitle);
-        System.out.println("| Level:\t" + Global.spacerString(24, Integer.toString(getLevel())) + " |");
-        System.out.println("| Exp:\t\t" + Global.spacerString(24, getExp() + "/" + getMaxExp()) + " |");
+        Global.placeLine( 11, nameTitle);
+        System.out.println("| Level:\t" + Global.spacerString(nameTitle.length() - 14, Integer.toString(getLevel())) + " |");
+        System.out.println("| Exp:\t\t" + Global.spacerString(nameTitle.length() - 14, getExp() + "/" + getMaxExp()) + " |");
         System.out.print("Equipment ");
-        Global.placeLine( 10, tempTitle);
-        System.out.println("| Weapon:\t" + Global.spacerString(24, getInventory().getEquippedWeapon().getItemName()) + " |");
-        System.out.println("| Helmet:\t" + Global.spacerString(24, getInventory().getEquippedHelmet().getItemName()) + " |");
-        System.out.println("| Armor:\t" + Global.spacerString(24, getInventory().getEquippedTorso().getItemName()) + " |");
-        System.out.println("| Gloves:\t" + Global.spacerString(24, getInventory().getEquippedGloves().getItemName()) + " |");
-        System.out.println("| Leggings:\t" + Global.spacerString(24, getInventory().getEquippedLeggings().getItemName()) + " |");
-        System.out.println("| Boots:\t" + Global.spacerString(24, getInventory().getEquippedBoots().getItemName()) + " |");
-        Global.placeLine(tempTitle);
+        Global.placeLine( 10, nameTitle);
+        System.out.println("| Weapon:\t" + Global.spacerString(nameTitle.length() - 14, getInventory().getEquippedWeapon().getItemName()) + " |");
+        System.out.println("| Helmet:\t" + Global.spacerString(nameTitle.length() - 14, getInventory().getEquippedHelmet().getItemName()) + " |");
+        System.out.println("| Armor:\t" + Global.spacerString(nameTitle.length() - 14, getInventory().getEquippedTorso().getItemName()) + " |");
+        System.out.println("| Gloves:\t" + Global.spacerString(nameTitle.length() - 14, getInventory().getEquippedGloves().getItemName()) + " |");
+        System.out.println("| Leggings:\t" + Global.spacerString(nameTitle.length() - 14, getInventory().getEquippedLeggings().getItemName()) + " |");
+        System.out.println("| Boots:\t" + Global.spacerString(nameTitle.length() - 14, getInventory().getEquippedBoots().getItemName()) + " |");
+        Global.placeLine(nameTitle);
     }
     public void equipEquipment(Item item){
         try {

@@ -1,4 +1,9 @@
-public class Spells {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Spells implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public String spellName;
     private String incantation;
     private int spellAttackValue;
@@ -80,17 +85,23 @@ public class Spells {
         this.manaNeeded = manaNeeded;
     }
 }
-class Fireball extends Spells {
+class Fireball extends Spells implements Serializable{
+    @Serial
+    private static final long serialVersionUID = 1L;
     public Fireball() {
         super("Fireball", "By the power sent by the inferno and the heat of the cosmos,\nlet the flames roar and reckon. I cast Fireball", 30, 20);
     }
 }
-class Thunder extends Spells {
+class Thunder extends Spells implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public Thunder() {
         super("Thunder", "In the darkened sky, lightning strikes and the echoes roar,\nlet the electric surge and zone. I cast Thunder", 15, 20);
     }
 }
-class Blizzard extends Spells {
+class Blizzard extends Spells implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public Blizzard() {
         super("Blizzard", "By the frost's embrace in the winter's might,\nlet the snow's unfold and flow. I cast Blizzard", 45, 70);
     }

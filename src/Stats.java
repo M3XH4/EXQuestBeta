@@ -2,6 +2,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 public class Stats implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     private String name;
     private String battleCry;
@@ -18,9 +19,9 @@ public class Stats implements Serializable {
         String nameTitle = "|--------------- " + getName() + " ---------------|";
         Global.placeLine(nameTitle);
         System.out.println(nameTitle);
-        System.out.println("| Health:\t" + Global.spacerString(24, getHealth() + "/" + getMaxHealth()) + " |");
+        System.out.println("| Health:\t" + Global.spacerString(nameTitle.length() - 14, getHealth() + "/" + getMaxHealth()) + " |");
         if (this instanceof Player player) {
-            System.out.println("| Mana:\t\t" + Global.spacerString(24, player.getMana() + "/" + player.getMaxMana()) + " |");
+            System.out.println("| Mana:\t\t" + Global.spacerString(nameTitle.length() - 14, player.getMana() + "/" + player.getMaxMana()) + " |");
         }
         Global.placeLine(nameTitle);
     }

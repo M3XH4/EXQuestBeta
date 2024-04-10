@@ -1,5 +1,9 @@
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
-public class ItemManager {
+public class ItemManager implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private ArrayList<Item> items;
     public ItemManager() {
         setItems(new ArrayList<>());
@@ -26,7 +30,9 @@ public class ItemManager {
     }
 }
 
-class Inventory extends ItemManager {
+class Inventory extends ItemManager implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private ArrayList<Item> ownItems;
     private ArrayList<Weapon> weapons;
     private ArrayList<Knife> knives;

@@ -1,16 +1,15 @@
-public class Item {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Item implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String itemName;
     private String itemDesc;
     private int statsValue;
     private int marketValue;
     private int quantity;
-
-    public Item(String itemName, int statsValue, int marketValue) {
-        setItemName(itemName);
-        setStatsValue(statsValue);
-        setMarketValue(marketValue);
-        setQuantity(1);
-    }
 
     public Item(String itemName, String itemDesc, int statsValue, int marketValue) {
         setItemName(itemName);
@@ -68,7 +67,10 @@ public class Item {
         this.marketValue = marketValue;
     }
 }
-class Consumables extends Item {
+class Consumables extends Item implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public Consumables(String itemName, String itemDesc, int statsValue, int marketValue) {
         super(itemName, itemDesc, statsValue, marketValue);
     }
@@ -77,7 +79,10 @@ class Consumables extends Item {
         super(item);
     }
 }
-class Potion extends Consumables {
+class Potion extends Consumables implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     Global.AttributeType attribute;
     public Potion(String itemName, String itemDesc, int statsValue, int marketValue, Global.AttributeType attribute) {
         super(itemName, itemDesc, statsValue, marketValue);
@@ -113,57 +118,56 @@ class Potion extends Consumables {
     }
 }
 // WEAPONS
-class Weapon extends Item {
+class Weapon extends Item implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public Weapon(String itemName, String itemDesc, int statsValue, int marketValue) {
         super(itemName, itemDesc, statsValue, marketValue);
-    }
-
-    public Weapon(String itemName, int statsValue, int marketValue) {
-        super(itemName, statsValue, marketValue);
     }
 
     public Weapon(Weapon item) {
         super(item);
     }
 }
-class NoItemWeapon extends Weapon {
+class NoItemWeapon extends Weapon implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public NoItemWeapon() {
         super("None", null, 0, 0);
     }
 }
-class Sword extends Weapon {
+class Sword extends Weapon implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public Sword(String itemName, String itemDesc, int statsValue, int marketValue) {
         super(itemName, itemDesc, statsValue, marketValue);
-    }
-
-    public Sword(String itemName, int statsValue, int marketValue) {
-        super(itemName, statsValue, marketValue);
     }
 
     public Sword(Sword item) {
         super(item);
     }
 }
-class Knife extends Weapon {
+class Knife extends Weapon implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public Knife(String itemName, String itemDesc, int statsValue, int marketValue) {
         super(itemName, itemDesc, statsValue, marketValue);
-    }
-
-    public Knife(String itemName, int statsValue, int marketValue) {
-        super(itemName, statsValue, marketValue);
     }
 
     public Knife(Knife item) {
         super(item);
     }
 }
-class Spear extends Weapon {
+class Spear extends Weapon implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public Spear(String itemName, String itemDesc, int statsValue, int marketValue) {
         super(itemName, itemDesc, statsValue, marketValue);
-    }
-
-    public Spear(String itemName, int statsValue, int marketValue) {
-        super(itemName, statsValue, marketValue);
     }
 
     public Spear(Spear item) {
@@ -172,83 +176,80 @@ class Spear extends Weapon {
 }
 
 // ARMORS
-class Armor extends Item {
+class Armor extends Item implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public Armor(String itemName, String itemDesc, int statsValue, int marketValue) {
         super(itemName, itemDesc, statsValue, marketValue);
-    }
-
-    public Armor(String itemName, int statsValue, int marketValue) {
-        super(itemName, statsValue, marketValue);
     }
 
     public Armor(Armor item) {
         super(item);
     }
 }
-class NoItemArmor extends Armor {
+class NoItemArmor extends Armor implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public NoItemArmor() {
         super("None", null, 0, 0);
     }
 }
-class Helmet extends Armor {
+class Helmet extends Armor implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public Helmet(String itemName, String itemDesc, int statsValue, int marketValue) {
         super(itemName, itemDesc, statsValue, marketValue);
-    }
-
-    public Helmet(String itemName, int statsValue, int marketValue) {
-        super(itemName, statsValue, marketValue);
     }
 
     public Helmet(Helmet helmet) {
         super(helmet);
     }
 }
-class Torso extends Armor {
+class Torso extends Armor implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public Torso(String itemName, String itemDesc, int statsValue, int marketValue) {
         super(itemName, itemDesc, statsValue, marketValue);
-    }
-
-    public Torso(String itemName, int statsValue, int marketValue) {
-        super(itemName, statsValue, marketValue);
     }
 
     public Torso(Torso item) {
         super(item);
     }
 }
-class Gloves extends Armor {
+class Gloves extends Armor implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public Gloves(String itemName, String itemDesc, int statsValue, int marketValue) {
         super(itemName, itemDesc, statsValue, marketValue);
-    }
-
-    public Gloves(String itemName, int statsValue, int marketValue) {
-        super(itemName, statsValue, marketValue);
     }
 
     public Gloves(Gloves item) {
         super(item);
     }
 }
-class Leggings extends Armor {
+class Leggings extends Armor implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public Leggings(String itemName, String itemDesc, int statsValue, int marketValue) {
         super(itemName, itemDesc, statsValue, marketValue);
-    }
-
-    public Leggings(String itemName, int statsValue, int marketValue) {
-        super(itemName, statsValue, marketValue);
     }
 
     public Leggings(Leggings item) {
         super(item);
     }
 }
-class Boots extends Armor {
+class Boots extends Armor implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     public Boots(String itemName, String itemDesc, int statsValue, int marketValue) {
         super(itemName, itemDesc, statsValue, marketValue);
-    }
-
-    public Boots(String itemName, int statsValue, int marketValue) {
-        super(itemName, statsValue, marketValue);
     }
 
     public Boots(Boots item) {
