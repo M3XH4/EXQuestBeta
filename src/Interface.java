@@ -287,8 +287,7 @@ public class Interface {
         System.out.println("Travelling Merchant: Welcome Customer, These Are Things That I'm Selling Today.");
         Global.pause();
         do {
-            Set<? extends Item> sellTempItems = Market.getSellTempItems(sellItems);
-            getMarketInventory().displaySellItems(sellTempItems);
+            getMarketInventory().displaySellItems();
             System.out.println("Travelling Merchant: Would You Like To Buy Or Sell Items: (Buy/Sell/Leave)");
             System.out.print("Your Response - ");
             String marketSelect = getInput().nextLine();
@@ -328,7 +327,7 @@ public class Interface {
                                         buyTurn++;
                                     } else if (buyingSelect.equalsIgnoreCase("No")) {
                                         buyingSelectLoop = false;
-                                        getMarketInventory().displaySellItems(sellTempItems);
+                                        getMarketInventory().displaySellItems();
                                     } else {
                                         confuseMessage(2);
                                     }

@@ -19,26 +19,6 @@ public class Player extends Stats implements Serializable {
         setLevel(1);
         setSkills(new ArrayList<>(List.of(new Skills("Fist", 3))));
         setCoins(100);
-
-        getInventory().addItem("Leather Helmet");
-        getInventory().addItem("Leather Helmet");
-        getInventory().addItem("Leather Helmet");
-        getInventory().addItem("Leather Robe");
-        getInventory().addItem("Leather Gloves");
-        getInventory().addItem("Leather Boots");
-        getInventory().addItem("Leather Boots");
-        getInventory().addItem("Leather Boots");
-        getInventory().addItem("Leather Pants");
-
-        for (int i = 0; i < 5; i++) {
-            getInventory().addItem("Health Potion");
-            //System.out.println("Health Potion Increased To " +  getInventory().getOwnItem("Health Potion").getQuantity());
-        }
-
-        for (int i = 0; i < 5; i++) {
-            getInventory().addItem("Mana Potion");
-            //System.out.println("Mana Potion Increased To " + getInventory().getOwnItem("Mana Potion").getQuantity());
-        }
     }
     public void displayFullStats() {
         String nameTitle = "|--------------- " + getName() + " ---------------|";
@@ -60,76 +40,71 @@ public class Player extends Stats implements Serializable {
         Global.placeLine(nameTitle);
     }
     public void equipEquipment(Item item){
-        try {
-            if (item instanceof Weapon) {
-                getInventory().setEquippedWeapon((Weapon) item);
-                getSkills().getFirst().setSkillAttackName(getInventory().getEquippedWeapon().getItemName());
-                getSkills().getFirst().setSkillAttackValue(getInventory().getEquippedWeapon().getStatsValue());
-            } else if (item instanceof Armor armor) {
-                switch (armor) {
-                    case Helmet helmet -> getInventory().setEquippedHelmet(helmet);
-                    case Torso torso -> getInventory().setEquippedTorso(torso);
-                    case Gloves gloves -> getInventory().setEquippedGloves(gloves);
-                    case Leggings leggings -> getInventory().setEquippedLeggings(leggings);
-                    case Boots boots -> getInventory().setEquippedBoots(boots);
-                    default -> {
-                    }
-                }
-                setHealth(getHealth() + armor.getStatsValue());
-                setMaxHealth(getMaxHealth() + armor.getStatsValue());
-            }
-            getInventory().getOwnItem(item.getItemName()).setQuantity(getInventory().getOwnItem(item.getItemName()).getQuantity() - 1);
-        } catch (Exception e) {
-            System.out.println("Spirit Guide: Item Is Not In Inventory.");
-        }
-    }
-    public void removeWeapon() {
-        getSkills().getFirst().setSkillAttackName("Fist");
-        getSkills().getFirst().setSkillAttackValue(3);
-        getInventory().getOwnItem(getInventory().getEquippedWeapon().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedWeapon().getItemName()).getQuantity() + 1);
-        getInventory().setEquippedWeapon(null);
-    }
-    public void removeHelmet() {
-        setMaxHealth(getMaxHealth() - getInventory().getEquippedHelmet().getStatsValue());
-        if(getHealth() > getMaxHealth()) {
-            setHealth(getMaxHealth());
-        }
-        getInventory().getOwnItem(getInventory().getEquippedHelmet().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedHelmet().getItemName()).getQuantity() + 1);
-        getInventory().setEquippedBoots(null);
-    }
-    public void removeTorso() {
-        setMaxHealth(getMaxHealth() - getInventory().getEquippedTorso().getStatsValue());
-        if(getHealth() > getMaxHealth()) {
-            setHealth(getMaxHealth());
-        }
-        getInventory().getOwnItem(getInventory().getEquippedTorso().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedTorso().getItemName()).getQuantity() + 1);
-        getInventory().setEquippedTorso(null);
-    }
-    public void removeGloves() {
-        setMaxHealth(getMaxHealth() - getInventory().getEquippedGloves().getStatsValue());
-        if(getHealth() > getMaxHealth()) {
-            setHealth(getMaxHealth());
-        }
-        getInventory().getOwnItem(getInventory().getEquippedGloves().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedGloves().getItemName()).getQuantity() + 1);
-        getInventory().setEquippedGloves(null);
-    }
-    public void removeLeggings() {
-        setMaxHealth(getMaxHealth() - getInventory().getEquippedLeggings().getStatsValue());
-        if(getHealth() > getMaxHealth()) {
-            setHealth(getMaxHealth());
-        }
-        getInventory().getOwnItem(getInventory().getEquippedLeggings().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedLeggings().getItemName()).getQuantity() + 1);
-        getInventory().setEquippedLeggings(null);
-    }
-    public void removeBoots() {
-        setMaxHealth(getMaxHealth() - getInventory().getEquippedBoots().getStatsValue());
-        if (getHealth() > getMaxHealth()) {
-            setHealth(getMaxHealth());
-        }
-        getInventory().getOwnItem(getInventory().getEquippedBoots().getItemName()).setQuantity(getInventory().getOwnItem(getInventory().getEquippedBoots().getItemName()).getQuantity() + 1);
-        getInventory().setEquippedBoots(null);
-    }
+        if(item.getQuantity() != 0) {
+            if (getInventory().getEquippedWeapon() != item &&
+                getInventory().getEquippedHelmet() != item &&
+                getInventory().getEquippedTorso() != item &&
+                getInventory().getEquippedGloves() != item &&
+                getInventory().getEquippedLeggings() != item &&
+                getInventory().getEquippedBoots() != item) {
 
+            } else if (getInventory().getEquippedWeapon().equals(item) ||
+                getInventory().getEquippedHelmet().equals(item) ||
+                getInventory().getEquippedTorso().equals(item) ||
+                getInventory().getEquippedGloves().equals(item) ||
+                getInventory().getEquippedLeggings().equals(item) ||
+                getInventory().getEquippedBoots().equals(item)) {
+                try {
+                    if (item instanceof Weapon) {
+                        getInventory().setEquippedWeapon((Weapon) item);
+                        getSkills().getFirst().setSkillAttackName(getInventory().getEquippedWeapon().getItemName());
+                        getSkills().getFirst().setSkillAttackValue(getInventory().getEquippedWeapon().getStatsValue());
+                    } else if (item instanceof Armor armor) {
+                        switch (armor) {
+                            case Helmet helmet -> getInventory().setEquippedHelmet(helmet);
+                            case Torso torso -> getInventory().setEquippedTorso(torso);
+                            case Gloves gloves -> getInventory().setEquippedGloves(gloves);
+                            case Leggings leggings -> getInventory().setEquippedLeggings(leggings);
+                            case Boots boots -> getInventory().setEquippedBoots(boots);
+                            default -> {
+                            }
+                        }
+                        setHealth(getHealth() + armor.getStatsValue());
+                        setMaxHealth(getMaxHealth() + armor.getStatsValue());
+                    }
+                    getInventory().getOwnItem(item.getItemName()).setQuantity(getInventory().getOwnItem(item.getItemName()).getQuantity() - 1);
+                } catch (Exception e) {
+                    System.out.println("Spirit Guide: Item Is Not In Inventory.");
+                }
+            } else {
+                System.out.println("Spirit Guide: Warrior, You Have Already Equipped This Item.");
+            }
+        }
+    }
+    public void removeEquippedItem(Item equippedItem) {
+        String itemName = equippedItem.getItemName();
+        getInventory().getOwnItem(itemName).setQuantity(getInventory().getOwnItem(itemName).getQuantity() + 1);
+
+        if (equippedItem instanceof Weapon) {
+            getSkills().getFirst().setSkillAttackName("Fist");
+            getSkills().getFirst().setSkillAttackValue(getSkillAttackValue() - equippedItem.getStatsValue() + 3);
+            getInventory().setEquippedWeapon(null);
+        } else {
+            setMaxHealth(getMaxHealth() - equippedItem.getStatsValue());
+            if (getHealth() > getMaxHealth()) {
+                setHealth(getMaxHealth());
+            }
+            switch (equippedItem.getClass().getSimpleName()) {
+                case "Helmet" -> getInventory().setEquippedHelmet(null) ;
+                case "Torso" -> getInventory().setEquippedTorso(null);
+                case "Gloves" -> getInventory().setEquippedGloves(null);
+                case "Leggings" -> getInventory().setEquippedLeggings(null);
+                case "Boots" -> getInventory().setEquippedBoots(null);
+                default -> {}
+            }
+        }
+        System.out.println("");
+    }
     public Grimoire getGrimoire() {
         return grimoire;
     }

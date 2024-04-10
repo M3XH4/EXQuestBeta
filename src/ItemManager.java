@@ -48,12 +48,12 @@ class MarketInventory extends ItemManager implements Serializable {
     public void setMarketItems(Set<Item> marketItems) {
         this.marketItems = marketItems;
     }
-    public void displaySellItems(Set<? extends Item> items) {
+    public void displaySellItems() {
         String headerItems = "|              Name             |        Type         |       Stats      |              Description              |      Value     |";
         Global.placeLine(headerItems);
         System.out.println(headerItems);
         Global.placeLine(headerItems);
-        for (Item item : items) {
+        for (Item item : getTempSellItems()) {
             if (item != null) {
                 if (item instanceof Consumables) {
                     System.out.print("| " + Global.spacerString(29, item.getItemName()) + " | " + Global.spacerString(19, item.getClass().getSimpleName()) + " | " + Global.spacerString(16, "") + " | " + Global.spacerString(37, item.getItemDesc()) + " | " +  Global.spacerString(15, (item.getMarketValue() + " Coins")) + "|\n");
@@ -63,11 +63,41 @@ class MarketInventory extends ItemManager implements Serializable {
                 }
             }
         }
-        if(items.isEmpty()) {
+        if(getTempSellItems().isEmpty()) {
             System.out.println("|\t\t\t\t\t\t\t\t| \t\t   | \t\t\t\t\t  |  \t\t\t\t | \t\t\t\t\t\t\t\t\t\t\t   |");
         }
         Global.placeLine(headerItems);
-        items.clear();
+    }
+    public Set<Item> getTempSellItems() {
+        Set<Item> tempItems = new HashSet<>();
+        for (Item item: getMarketItems()) {
+            switch (item) {
+                case Weapon ignored -> {
+                    switch (item) {
+                        case Knife knife -> tempItems.add(new Knife(knife));
+                        case Sword sword -> tempItems.add(new Sword(sword));
+                        case Spear spear -> tempItems.add(new Spear(spear));
+                        default -> {
+                        }
+                    }
+                }
+                case Armor ignored -> {
+                    switch (item) {
+                        case Helmet helmet -> tempItems.add(new Helmet(helmet));
+                        case Torso torso -> tempItems.add(new Torso(torso));
+                        case Gloves glove -> tempItems.add(new Gloves(glove));
+                        case Leggings legging -> tempItems.add(new Leggings(legging));
+                        case Boots boot -> tempItems.add(new Boots(boot));
+                        default -> {
+                        }
+                    }
+                }
+                case Potion potion -> tempItems.add(new Potion(potion));
+                default -> {
+                }
+            }
+        }
+        return tempItems;
     }
 }
 class Inventory extends ItemManager implements Serializable {
