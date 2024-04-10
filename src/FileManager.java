@@ -32,22 +32,39 @@ public class FileManager {
                                     Armor gloves, Armor leggings, Armor boots) {
         Player tempPlayer = loadPlayer();
         if (tempPlayer.getName().equalsIgnoreCase(name)) {
-            tempPlayer.setMaxHealth(maxHealth);
-            tempPlayer.setHealth(maxHealth);
-            tempPlayer.setMaxMana(maxMana);
-            tempPlayer.setMana(maxMana);
-            tempPlayer.setCoins(coins);
-            tempPlayer.setLevel(level);
-            tempPlayer.setExp(exp);
-            tempPlayer.setMaxExp(maxExp);
-            tempPlayer.getInventory().setOwnItems(inventory);
-            tempPlayer.equipEquipment(weapon);
-            tempPlayer.equipEquipment(helmet);
-            tempPlayer.equipEquipment(torso);
-            tempPlayer.equipEquipment(gloves);
-            tempPlayer.equipEquipment(leggings);
-            tempPlayer.equipEquipment(boots);
-            savePlayer(tempPlayer);
+            try {
+                tempPlayer.setMaxHealth(maxHealth);
+                tempPlayer.setHealth(maxHealth);
+                tempPlayer.setMaxMana(maxMana);
+                tempPlayer.setMana(maxMana);
+                tempPlayer.setCoins(coins);
+                tempPlayer.setLevel(level);
+                tempPlayer.setExp(exp);
+                tempPlayer.setMaxExp(maxExp);
+                tempPlayer.getInventory().setOwnItems(inventory);
+                if (weapon != null) {
+                    tempPlayer.getInventory().setEquippedWeapon(weapon);
+                }
+                if (helmet != null) {
+                    tempPlayer.getInventory().setEquippedHelmet((Helmet) helmet);
+                }
+                if (torso != null) {
+                    tempPlayer.getInventory().setEquippedTorso((Torso) torso);
+                }
+                if (gloves != null) {
+                    tempPlayer.getInventory().setEquippedGloves((Gloves) gloves);
+                }
+                if (leggings != null) {
+                    tempPlayer.getInventory().setEquippedLeggings((Leggings) leggings);
+                }
+                if (boots != null) {
+                    tempPlayer.getInventory().setEquippedBoots((Boots) boots);
+                }
+                savePlayer(tempPlayer);
+            } catch (Exception e) {
+                System.out.println(e);
+                System.out.println("Spirit Guide: Failed To Save.");
+            }
         } else {
             System.err.println("User Not Found.");
         }
