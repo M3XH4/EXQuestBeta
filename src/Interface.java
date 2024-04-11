@@ -281,6 +281,7 @@ public class Interface {
     }
     public void openInventoryDisplay() {
         do {
+            SoundManager.playMP3("open_inventory.mp3");
             inventorySelectLoop = true;
             String inventoryCommandMsg = "|      ( Equip ) - Equip Your Equipments      |     ( Consume ) - Consume Consumables     |       ( Back ) - Back To Previous      |";
             getPlayer().getInventory().displayOwnItems(getPlayer().getInventory().getTempOwnItems());
@@ -381,6 +382,7 @@ public class Interface {
                                         System.out.println("Travelling Merchant: Thank You For Purchasing.");
                                         System.out.println("Spirit Guide: You Have Lose " + item.getMarketValue() + " Coins From Purchasing " + item.getItemName() + ".");
                                         getPlayer().getInventory().addItem(item.getItemName(), 1);
+                                        SoundManager.playMP3("payout.mp3");
                                         buyTurn++;
                                     } else if (buyingSelect.equalsIgnoreCase("No")) {
                                         buyingSelectLoop = false;

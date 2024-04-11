@@ -12,7 +12,6 @@ public class FileManager {
     public static void savePlayer(Player player) {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePathPlayerData))) {
             outputStream.writeObject(player);
-            System.out.println("Player Saved Successfully");
         } catch (IOException e) {
             System.err.println("Error Saving Data: " + e.getMessage());
         }
@@ -21,11 +20,20 @@ public class FileManager {
         Player tempPlayer = null;
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePathPlayerData))) {
             tempPlayer = (Player) inputStream.readObject();
-            System.out.println("Data Loaded Successfully.");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error Loading Data: " + e.getMessage());
         }
         return tempPlayer;
+    }
+    public static void deletePlayer() {
+        try {
+            File file = new File(filePathPlayerData);
+            if (file.delete()) {
+                System.out.println("Spirit Guide: I Wish For Your Safety And I Hope We Will See Each Other Again");
+            }
+        } catch (Exception e) {
+            System.err.println("Spirit Guide: Sorry Hero, But I Cannot Open The Portal To Your World.");
+        }
     }
     public static void updatePlayer(String name, int maxHealth, int maxMana, int coins,
                                     int level, int exp, int maxExp, ArrayList<Item> inventory, Weapon weapon, Armor helmet, Armor torso,
@@ -62,11 +70,10 @@ public class FileManager {
                 }
                 savePlayer(tempPlayer);
             } catch (Exception e) {
-                System.out.println(e);
-                System.out.println("Spirit Guide: Failed To Save.");
+                System.out.println("Spirit Guide: It Seems That This Save Option Is Not Working.");
             }
         } else {
-            System.err.println("User Not Found.");
+            System.err.println("Spirit Guide: Where Are You Warrior?");
         }
     }
 }

@@ -97,6 +97,7 @@ public class Stats implements Serializable {
                 System.out.println("Spirit Guide: Mana Has Increased To " + getMaxMana() + ".");
                 System.out.println("Spirit Guide: Attack Has Increase To " + getSkillAttackValue() + ".");
                 System.out.println("Spirit Guide: By The Heaven's Grace, Your Health And Mana Has Successfully Restored To It's Full.");
+                SoundManager.playMP3("level_up.mp3");
             } else {
                 System.out.println("Spirit Guide: Warrior " + player.getName() + " You Do Not Have The Enough Experience To Level Up.");
                 System.out.println("Spirit Guide: You Need " + (player.getMaxExp() - player.getExp()) + " More EXP Points.");

@@ -60,6 +60,7 @@ public class Player extends Stats implements Serializable {
                     setMaxHealth(getMaxHealth() + armor.getStatsValue());
                 }
                 getInventory().getOwnItem(item.getItemName()).setQuantity(getInventory().getOwnItem(item.getItemName()).getQuantity() - 1);
+                SoundManager.playMP3("equip_item.mp3");
             } catch (Exception e) {
                 System.out.println("Spirit Guide: Item Is Not In Inventory.");
             }
@@ -88,6 +89,7 @@ public class Player extends Stats implements Serializable {
             }
         }
         System.out.println("Spirit Guide: You Have Removed The " + equippedItem.getItemName() + ".");
+        SoundManager.playMP3("remove_item.mp3");
     }
     public Grimoire getGrimoire() {
         return grimoire;

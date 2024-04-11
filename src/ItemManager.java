@@ -186,6 +186,7 @@ class Inventory extends ItemManager implements Serializable {
             tempItem.setQuantity(tempItem.getQuantity() + quantity);
         }
         System.out.println("Spirit Guide: Obtained " + itemName + " x" + quantity);
+        SoundManager.playMP3("obtain_item.mp3");
     }
     public Item getItem(String itemName) {
         return searchItem(itemName);

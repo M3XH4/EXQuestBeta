@@ -100,6 +100,7 @@ class Potion extends Consumables implements Serializable {
             if(drankSuccessfully) {
                 System.out.println("Spirit Guide: Successfully Drank " + getItemName() + " Potion");
                 System.out.println("Spirit Guide: Successfully Restored " + getAttribute() + " To " + player.getMaxHealth() + ".");
+                SoundManager.playMP3("drink.mp3");
                 setQuantity(getQuantity() - 1);
             } else {
                 System.out.println("Spirit Guide: You Did Not Drink The Potion, Warrior " + player.getName() + ".");

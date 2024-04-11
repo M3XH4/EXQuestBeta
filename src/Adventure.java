@@ -5,8 +5,8 @@ public class Adventure {
         boolean gameLoop = true;
         Player player = FileManager.loadPlayer();
         String gameTitle = "-------------------------------------------------------       EXQuest       -------------------------------------------------------";
-
-        System.out.println(gameTitle);
+        System.out.println(ColorTextManager.BACKGROUND_BLACK + ColorTextManager.BLUE + gameTitle + ColorTextManager.RESET);
+        SoundManager.playMP3("start_game.mp3");
         if (player == null) {
             System.out.println("Unknown Person: Good Day Traveller, What Is Your Name? ");
             System.out.print("Your Name - ");
@@ -16,16 +16,14 @@ public class Adventure {
             System.out.println("Unknown Person: I Am A Spirit Guide, I Will Help You Throughout Your Journey In This World.");
             System.out.println("Spirit Guide: Do You Want To Start Your Adventure? (Yes/No)");
             System.out.println("Spirit Guide: If You Answer No, I Can Use A Spell To Help You Go Back To Your World.");
-
         } else {
             System.out.println("Spirit Guide: Welcome Back, Warrior " + player.getName() + ".");
-            System.out.println("Spirit Guide: Do You Want To Continue Your Adventure? (Yes)");
+            System.out.println("Spirit Guide: Do You Want To Continue Your Adventure? (Yes/No)");
         }
 
         do {
             System.out.print("Your Response - ");
             String gameStart = input.nextLine();
-            Enemy enemy = new Enemy();
             if (gameStart.equalsIgnoreCase("Yes")) {
                 FileManager.savePlayer(player);
                 if (player.getInventory().getOwnItems().isEmpty()) {
@@ -39,9 +37,9 @@ public class Adventure {
                     player.getInventory().addItem("Lesser Health Potion", 10);
                     player.getInventory().addItem("Lesser Mana Potion", 10);
                 }
-                Global.placeLine(gameTitle);
-                System.out.println();
+                Global.placeColorLine(gameTitle);
                 do {
+                    Enemy enemy = new Enemy();
                     ScenarioManager scenarioManager = new ScenarioManager(player, enemy);
                     scenarioManager.getScreen().startScreen();
                     Random random = new Random();
@@ -55,14 +53,14 @@ public class Adventure {
                     }
                 } while(true);
             } else if (gameStart.equalsIgnoreCase("No")) {
-                Global.placeLine(gameTitle);
+                Global.placeColorLine(gameTitle);
                 do {
                     System.out.println("Spirit Guide: Do You Want To Go Back To Your World? (Yes/No)");
                     System.out.print("Your Response - ");
                     String answer = input.nextLine();
                     if (answer.equalsIgnoreCase("Yes")) {
                         System.out.println("Spirit Guide: Farewell, Warrior " + player.getName() + ".");
-                        System.out.println("Spirit Guide: I Wish For Your Safety And I Hope We Will See Each Other Again");
+                        FileManager.deletePlayer();
                         gameLoop = false;
                         break;
                     } else if (answer.equalsIgnoreCase("No")) {
@@ -71,7 +69,11 @@ public class Adventure {
                         System.out.println("Spirit Guide: I'm Sorry, But I Could Not Understand What You're Saying Warrior " + player.getName() + ".");
                     }
                 } while (true);
-                Global.placeLine(gameTitle);
+                Global.placeColorLine(gameTitle);
+                System.out.println("Spirit Guide: Do You Want To Continue Your Adventure? (Yes/No)");
+            } else {
+                System.out.println("Spirit Guide: I'm Sorry, But I Could Not Understand Your Response, What Was It Again?");
+                System.out.println("Spirit Guide: Do You Want To Continue Your Adventure? (Yes/No)");
             }
         } while (gameLoop);
 
