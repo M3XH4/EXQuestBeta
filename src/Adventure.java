@@ -56,6 +56,7 @@ public class Adventure {
                 Global.placeColorLine(gameTitle);
                 do {
                     System.out.println("Spirit Guide: Do You Want To Go Back To Your World? (Yes/No)");
+                    System.out.println(ColorTextManager.RED + "WARNING: Save Will Be Deleted If Continued." + ColorTextManager.RESET);
                     System.out.print("Your Response - ");
                     String answer = input.nextLine();
                     if (answer.equalsIgnoreCase("Yes")) {
