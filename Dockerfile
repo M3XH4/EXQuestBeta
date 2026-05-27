@@ -1,37 +1,18 @@
-FROM php:8.3-apache
+FROM maven:3.9.9-eclipse-temurin-21 AS build
 
-RUN apt-get update && apt-get install -y \
-    git unzip zip curl \
-    libpq-dev libzip-dev \
-    libpng-dev libjpeg-dev libfreetype6-dev \
-    libicu-dev libonig-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_pgsql pgsql zip gd intl mbstring bcmath \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-WORKDIR /var/www/html
+WORKDIR /app
 
 COPY . .
 
-RUN composer diagnose || true
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --ignore-platform-req=ext-redis
+RUN mvn clean package -DskipTests
 
-RUN php artisan config:clear || true
 
-RUN chown -R www-data:www-data storage bootstrap/cache
+FROM eclipse-temurin:21-jre
 
-RUN a2enmod rewrite
+WORKDIR /app
 
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+COPY --from=build /app/target/exquestbeta-0.0.1-SNAPSHOT.jar app.jar
 
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+EXPOSE 8080
 
-EXPOSE 80
-
-CMD php artisan config:clear && \
-    php artisan migrate:fresh --seed --force && \
-    php artisan storage:link || true && \
-    apache2-foreground
+CMD ["java", "-jar", "app.jar"]
