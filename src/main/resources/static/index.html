@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EXQuest Terminal</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<main class="terminal-shell">
+    <section class="terminal-window" aria-label="EXQuest terminal">
+        <header class="terminal-header">
+            <div class="window-controls" aria-hidden="true">
+                <span class="control control-close"></span>
+                <span class="control control-minimize"></span>
+                <span class="control control-maximize"></span>
+            </div>
+            <div class="terminal-title">EXQuestBeta</div>
+            <button class="icon-button" id="resetButton" type="button" title="Restart session" aria-label="Restart session">↻</button>
+        </header>
+
+        <div class="terminal-output" id="terminalOutput" aria-live="polite"></div>
+
+        <form class="terminal-input-row" id="commandForm" autocomplete="off">
+            <label class="prompt" id="promptLabel" for="commandInput">...</label>
+            <input id="commandInput" name="command" type="text" spellcheck="false" autofocus>
+            <button class="send-button" type="submit" title="Run command" aria-label="Run command">↵</button>
+        </form>
+    </section>
+</main>
+<script src="/app.js"></script>
+</body>
+</html>

@@ -3,11 +3,31 @@ import java.nio.file.*;
 import java.util.ArrayList;
 
 public class FileManager {
-    public static final String filePathPlayerData = getSourcePath() + "\\files\\playerData.dat";
+    public static final String filePathPlayerData = resolvePlayerDataPath().toString();
 
-    private static String getSourcePath() {
+    private static Path getSourcePath() {
         Path currentPath = Paths.get("");
-        return currentPath.toAbsolutePath() + "\\src";
+        return currentPath.toAbsolutePath().resolve("src");
+    }
+
+    private static Path resolvePlayerDataPath() {
+        String configuredDataDir = System.getProperty("exquest.data.dir");
+        Path defaultDataDir = configuredDataDir == null || configuredDataDir.isBlank()
+                ? Paths.get("").toAbsolutePath().resolve("data")
+                : Paths.get(configuredDataDir).toAbsolutePath();
+        Path defaultPlayerData = defaultDataDir.resolve("playerData.dat");
+        Path legacyPlayerData = getSourcePath().resolve("files").resolve("playerData.dat");
+
+        try {
+            Files.createDirectories(defaultDataDir);
+        } catch (IOException e) {
+            System.err.println("Error Preparing Save Directory: " + e.getMessage());
+        }
+
+        if (Files.exists(defaultPlayerData) || !Files.exists(legacyPlayerData)) {
+            return defaultPlayerData;
+        }
+        return legacyPlayerData;
     }
     public static void savePlayer(Player player) {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePathPlayerData))) {

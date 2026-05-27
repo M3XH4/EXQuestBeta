@@ -18,10 +18,31 @@ EXQuestBeta is a classic, text-based RPG developed in Java. Step into the world 
 ## How to Play
 
 ### Prerequisites
-- Java Development Kit (JDK)
-- The JLayer library (`jl1.0.1.jar`) included in the `libs` directory.
+- Java Development Kit (JDK) 21 for the Spring Boot web terminal.
+- Maven for building the web terminal.
+- The JLayer library (`jlayer-1.0.1.jar`) included in the `lib` directory.
 
 ### Running the Game
+#### Spring Boot Web Terminal
+1.  Make sure Java 21 and Maven are available.
+2.  Build the Spring Boot jar:
+    ```sh
+    mvn -DskipTests package
+    ```
+3.  Start the web terminal:
+    ```sh
+    java -jar target/exquestbeta-0.0.1-SNAPSHOT.jar
+    ```
+4.  Open the terminal UI in your browser:
+    ```text
+    http://localhost:8080
+    ```
+
+The browser version keeps the same terminal-style flow and supports commands such as `Equip`, `Open`, `View`, `Roam`, `Attack`, `Spell Fireball`, `Buy Iron Sword`, `Sell Leather Boots`, `Save`, and `Reset`.
+
+Save data is written to `data/playerData.dat` for web deployments. If an older `src/files/playerData.dat` save exists, the app will continue using it so existing local progress is not lost.
+
+#### Original Console Version
 1.  **Clone the repository:**
     ```sh
     git clone https://github.com/m3xh4/exquestbeta.git
@@ -31,18 +52,18 @@ EXQuestBeta is a classic, text-based RPG developed in Java. Step into the world 
     From the root directory of the project, run the following command to compile all Java files into a `bin` directory.
 
     ```sh
-    javac -d bin -cp "libs/JLayer1.0.1/jl1.0.1.jar" src/*.java
+    javac -d bin -cp "lib/jlayer-1.0.1.jar" src/*.java
     ```
 3.  **Run the game:**
     Execute the main class from the root directory. This ensures the game can locate the necessary sound and data files within the `src/files` directory.
 
     On Windows:
     ```sh
-    java -cp "bin;libs/JLayer1.0.1/jl1.0.1.jar" Adventure
+    java -cp "bin;lib/jlayer-1.0.1.jar" Adventure
     ```
     On macOS/Linux:
     ```sh
-    java -cp "bin:libs/JLayer1.0.1/jl1.0.1.jar" Adventure
+    java -cp "bin:lib/jlayer-1.0.1.jar" Adventure
     ```
 
 4.  Follow the prompts from the Spirit Guide to start your adventure!
