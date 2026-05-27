@@ -78,6 +78,7 @@ class Consumables extends Item implements Serializable {
     public Consumables(Item item) {
         super(item);
     }
+
 }
 class Potion extends Consumables implements Serializable {
     @Serial

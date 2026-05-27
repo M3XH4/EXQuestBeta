@@ -6,8 +6,6 @@ public class ItemManager implements Serializable {
     private ArrayList<Item> items;
     public ItemManager() {
         setItems(new ArrayList<>());
-
-
         getItems().add(new Gloves("Leather Gloves", "", 3, 7));
         getItems().add(new Helmet("Leather Helmet", "", 4, 10));
         getItems().add(new Leggings("Leather Pants", "",5, 16));

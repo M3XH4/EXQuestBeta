@@ -103,6 +103,6 @@ class Blizzard extends Spells implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     public Blizzard() {
-        super("Blizzard", "By the frost's embrace in the winter's might,\nlet the snow's unfold and flow. I cast Blizzard", 45, 70);
+        super("Blizzard", "By the frost's embrace in the winter's might1,\nlet the snow's unfold and flow. I cast Blizzard", 45, 70);
     }
 }
