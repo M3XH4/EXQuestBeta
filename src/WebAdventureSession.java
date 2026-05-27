@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.Random;
 
 public class WebAdventureSession {
-    private static final String TITLE = "-------------------------------------------------------       EXQuest       -------------------------------------------------------";
+    private static final String TITLE = "-------------------------------------------------------       EXQuest       ------------------------------------------------------";
 
     private enum Mode {
         AWAITING_NAME,
